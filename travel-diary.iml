@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/target/generated-sources" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-status" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -73,8 +74,9 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-security:2.0.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.0.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:5.0.6.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.0.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.0.6.RELEASE" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:5.0.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.0.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.github.ulisesbocchio:jasypt-spring-boot:2.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.melloware:jasypt:1.9.4" level="project" />
@@ -160,5 +162,6 @@
     <orderEntry type="library" name="Maven: org.webjars.bower:jquery:3.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bower:tinymce:4.7.13" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-devtools:2.0.3.RELEASE" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.icegreen:greenmail:1.5.0" level="project" />
   </component>
 </module>

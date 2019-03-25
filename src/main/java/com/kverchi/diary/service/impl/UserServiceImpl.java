@@ -82,10 +82,10 @@ public class UserServiceImpl implements UserService {
             return response;
         }
         User user = form.toUser(bCryptPasswordEncoder);
-        Email registrationEmail = new Email("kverchi24@gmail.com", "hello", "test");
-        emailMessagingProducerService.sendEmail(registrationEmail);
+        //TODO sending email
+        //emailMessagingProducerService.sendEmail(registrationEmail);
 
-        /*try {
+        try {
             userRepository.save(user);
             response.setSuccessResponse();
         } catch (UnexpectedRollbackException e) {
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
             response.setInternalServerErrorResponse();
         } catch (Exception e) {
             response.setInternalServerErrorResponse();
-        }*/
+        }
         return response;
     }
 
