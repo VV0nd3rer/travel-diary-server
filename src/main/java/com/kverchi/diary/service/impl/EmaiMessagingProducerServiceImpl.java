@@ -1,6 +1,8 @@
 package com.kverchi.diary.service.impl;
 
 import com.kverchi.diary.model.Email;
+import com.kverchi.diary.model.entity.User;
+import com.kverchi.diary.model.enums.EmailType;
 import com.kverchi.diary.service.EmailMessagingProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
@@ -20,4 +22,5 @@ public class EmaiMessagingProducerServiceImpl implements EmailMessagingProducerS
     public void sendEmail(Email email) {
         jmsTemplate.convertAndSend("diary.email.queue", email);
     }
+
 }

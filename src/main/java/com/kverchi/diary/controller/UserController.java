@@ -3,17 +3,14 @@ package com.kverchi.diary.controller;
 import com.kverchi.diary.model.ServiceResponse;
 import com.kverchi.diary.model.form.RegistrationForm;
 import com.kverchi.diary.service.UserService;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import com.kverchi.diary.model.entity.User;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head></head>
+<head>
+    <title th:text="#{signup.label}">Hello</title>
+</head>
 <body>
-<span th:text="${message}"></span>
+<div><span th:text="#{registering.user.email.info}">Some fancy text</span> <span style="color:blue;" th:text="${confirmEmailLink}">link</span></div>
 </body>
 </html>

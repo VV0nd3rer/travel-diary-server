@@ -92,37 +92,21 @@ public class EmailServiceImpl implements EmailService {
         oauthClientCredentialsRepository.save(oauthClientCredentials);
         return oauthClientCredentials;
     }
-    private MimeMessagePreparator prepeareEmail(Email email) {
-        // Usual inline interface implementation
-        /*MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
-            @Override
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-                //...
-            }
-        }*/
-        // Implementing an interface by a lambda expression
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("diaryofkverchi@gmail.com");
-            messageHelper.setTo(email.getRecipientAddress());
-            messageHelper.setSubject(email.getSubject());
 
-            Context context = new Context();
-            context.setVariable("message", email.getText());
-            String emailMessage = templateEngine.process("registrationMailTemplate", context);
-
-            messageHelper.setText(emailMessage, true);
-        };
-        return messagePreparator;
-    }
     @Override
     public void sendEmail(Email email) {
         OauthClientCredentials oauthClientCredentials = getCredentials();
         ((JavaMailSenderImpl)emailSender).setPassword(oauthClientCredentials.getAccessToken());
-        MimeMessagePreparator messagePreparator = prepeareEmail(email);
         try {
-            emailSender.send(messagePreparator);
+            emailSender.send(mimeMessage -> {
+                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+                messageHelper.setTo((email.getRecipientsAddress()).stream().toArray(n -> new String[n]));
+                Context context = new Context();
+                context.setVariables(email.getTextVariables());
+                String emailMessage = templateEngine.process(email.getEmailType().toString(), context);
+
+                messageHelper.setText(emailMessage, true);
+            });
         } catch (MailException e) {
             // TODO log exception and/or repeat sending email
             logger.error("Error during sending email");

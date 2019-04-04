@@ -25,7 +25,8 @@ public class User implements Serializable, UserDetails {
 	private int userId;
 	private String username;
     private String password;
-    private boolean enabled;
+	@Column(name="is_enabled")
+    private boolean isEnabled;
     private String email;
 	private String information;
 	@Column(name = "registration_date", insertable=false)
@@ -91,10 +92,10 @@ public class User implements Serializable, UserDetails {
 	}
 	@Override
 	public boolean isEnabled() {
-		return enabled;
+		return isEnabled;
 	}
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 	public String getEmail() {
 		return email;

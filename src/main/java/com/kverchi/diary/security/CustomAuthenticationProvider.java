@@ -30,7 +30,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         try {
             user = userDetailsService.loadUserByUsername(username);
         } catch (UsernameNotFoundException e) {
-
+            throw new BadCredentialsException("Authentication failed");
         }
         boolean isPassMatches = bCryptPasswordEncoder.matches(password, user.getPassword());
         if (user != null && user.getUsername().equals(username) && isPassMatches) {

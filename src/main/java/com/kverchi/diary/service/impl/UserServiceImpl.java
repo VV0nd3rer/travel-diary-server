@@ -3,12 +3,13 @@ package com.kverchi.diary.service.impl;
 import com.kverchi.diary.model.Email;
 import com.kverchi.diary.model.ServiceResponse;
 import com.kverchi.diary.model.entity.User;
+import com.kverchi.diary.model.enums.EmailType;
 import com.kverchi.diary.model.enums.ServiceMessageResponse;
 import com.kverchi.diary.model.form.RegistrationForm;
 import com.kverchi.diary.repository.UserRepository;
 import com.kverchi.diary.service.EmailMessagingProducerService;
+import com.kverchi.diary.service.SecurityService;
 import com.kverchi.diary.service.UserService;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -20,15 +21,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.UnexpectedRollbackException;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kverchi on 20.7.2018.
  */
 @Service
 public class UserServiceImpl implements UserService {
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
     @Autowired
     UserRepository userRepository;
 
@@ -37,6 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    SecurityService securityService;
 
     @Autowired
     EmailMessagingProducerService emailMessagingProducerService;
@@ -81,9 +91,31 @@ public class UserServiceImpl implements UserService {
             response.setResponseCode(HttpStatus.BAD_REQUEST);
             return response;
         }
+
         User user = form.toUser(bCryptPasswordEncoder);
-        //TODO sending email
-        //emailMessagingProducerService.sendEmail(registrationEmail);
+        if(userRepository.findByUsername(user.getUsername()) != null) {
+            response.setResponseMessage(ServiceMessageResponse.USER_USERNAME_ALREADY_EXIST);
+            response.setResponseCode(HttpStatus.BAD_REQUEST);
+            return response;
+        }
+        if(userRepository.findByEmail(user.getEmail()) != null) {
+            response.setResponseMessage(ServiceMessageResponse.USER_EMAIL_ALREADY_EXIST);
+            response.setResponseCode(HttpStatus.BAD_REQUEST);
+            return response;
+        }
+        String securityToken = securityService.generateSecurityToken();
+
+        String baseUrl = UserService.generateServerBaseUrl(httpServletRequest);
+        String confirmLink = baseUrl + "/user/confirm/" + securityToken;
+
+        List<String> recipientsAddress = Arrays.asList(user.getEmail());
+        Map<String, Object> textVariables = new HashMap<>();
+        textVariables.put("confirmEmailLink", confirmLink);
+        Email registrationEmail =
+                new Email(EmailType.REGISTRATION_EMAIL,
+                          recipientsAddress,
+                          textVariables);
+        emailMessagingProducerService.sendEmail(registrationEmail);
 
         try {
             userRepository.save(user);
@@ -136,4 +168,5 @@ public class UserServiceImpl implements UserService {
     public boolean verifyPassword(String rawPass, String encodedPass) {
         return false;
     }
+
 }
