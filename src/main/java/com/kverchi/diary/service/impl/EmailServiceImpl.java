@@ -100,7 +100,8 @@ public class EmailServiceImpl implements EmailService {
         try {
             emailSender.send(mimeMessage -> {
                 MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-                messageHelper.setTo((email.getRecipientsAddress()).stream().toArray(n -> new String[n]));
+                messageHelper.setTo
+                        ((email.getRecipientsAddress()).stream().toArray(String[]::new));
                 Context context = new Context();
                 context.setVariables(email.getTextVariables());
                 String emailMessage = templateEngine.process(email.getEmailType().toString(), context);
