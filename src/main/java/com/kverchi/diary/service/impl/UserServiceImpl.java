@@ -10,6 +10,8 @@ import com.kverchi.diary.repository.UserRepository;
 import com.kverchi.diary.service.EmailMessagingProducerService;
 import com.kverchi.diary.service.SecurityService;
 import com.kverchi.diary.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -33,6 +35,8 @@ import java.util.Map;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
     private HttpServletRequest httpServletRequest;
 
@@ -59,10 +63,11 @@ public class UserServiceImpl implements UserService {
         try {
             authentication = this.authenticationProvider.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            /*User user = (User) authentication.getPrincipal();
-            user.setPassword(null);*/
+            User user = (User) authentication.getPrincipal();
+            logger.info("Logged in user: {}", user);
+            user.setPassword(null);
 
-            return new ServiceResponse(HttpStatus.OK, ServiceMessageResponse.OK);
+            return new ServiceResponse(HttpStatus.OK, ServiceMessageResponse.OK, user);
 
         } catch (BadCredentialsException ex) {
             return new ServiceResponse(HttpStatus.BAD_REQUEST, ServiceMessageResponse.NO_USER_WITH_USERNAME);
