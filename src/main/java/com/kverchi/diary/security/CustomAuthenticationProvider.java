@@ -34,7 +34,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
         boolean isPassMatches = bCryptPasswordEncoder.matches(password, user.getPassword());
         if (user != null && user.getUsername().equals(username) && isPassMatches) {
-            return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            return new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         } else {
             throw new BadCredentialsException("Authentication failed");
         }

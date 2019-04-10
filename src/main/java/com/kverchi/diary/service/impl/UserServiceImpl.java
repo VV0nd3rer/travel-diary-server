@@ -156,7 +156,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserFromSession() {
-        return null;
+        User currentUser = securityService.getUserFromSession();
+        return currentUser;
     }
 
     @Override

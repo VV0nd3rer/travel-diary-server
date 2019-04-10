@@ -19,6 +19,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 /**
  * Created by Liudmyla Melnychuk on 12.12.2018.
  */
@@ -31,32 +33,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 /*.authorizeRequests()
-                .anyRequest().authenticated()
+                     .antMatchers("/user*//**").permitAll()
+                     .antMatchers("/test").authenticated()
+                     .anyRequest().authenticated()
                 .and()*/
-                .cors().configurationSource(corsConfigurationSource())
-                .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/login")//.permitAll()
+                .and()
+                .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .csrf()
                 .disable();
-                //.csrfTokenRepository(CrossDomainCsrfTokenRepository.withHttpOnlyFalse());
     }
+
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(ImmutableList.of("http://localhost:4200"));
-        configuration.setAllowedMethods(ImmutableList.of("*"));
-        configuration.setAllowedHeaders(
-                ImmutableList.of("X-XSRF-TOKEN", "Content-Type"));
-        configuration.setExposedHeaders(ImmutableList.of(
-                "Content-Location", "X-XSRF-TOKEN"));
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();

@@ -1,6 +1,8 @@
 package com.kverchi.diary.controller;
 
+import com.kverchi.diary.model.entity.Post;
 import com.kverchi.diary.model.entity.User;
+import com.kverchi.diary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,18 +13,17 @@ import java.util.UUID;
 @Controller
 public class MainController {
 
-	@GetMapping(value = "/{path:[^\\.]*}")
+	/*@GetMapping(value = "/{path:[^\\.]*}")
 	public String redirect() {
 		return "redirect:/";
-	}
+	}*/
+	@Autowired
+	UserService userService;
 
 	@GetMapping("/test")
 	@ResponseBody
 	public User test() {
-		User model = new User();
-		model.setUsername(UUID.randomUUID().toString());
-		model.setPassword("Hello World");
-		return model;
+		return userService.getUserFromSession();
 	}
 
 	@RequestMapping("/transaction-error")

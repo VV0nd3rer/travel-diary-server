@@ -36,10 +36,10 @@ public class PostController {
         return new CountriesSight();
     }
 
-    @GetMapping(value = "/{path:[^\\.]*}")
+   /* @GetMapping(value = "/{path:[^\\.]*}")
     public String redirect() {
         return "redirect:/";
-    }
+    }*/
 
     @RequestMapping("/main")
     public ModelAndView showMain(
