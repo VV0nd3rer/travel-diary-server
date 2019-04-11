@@ -40,6 +40,6 @@ public class SecurityServiceImplTest {
     @WithMockUser
     public void testGetUserFromSession() throws Exception {
         User user = securityService.getUserFromSession();
-        assertEquals(user.getUserId(), 0);
+        assertEquals(user.getUsername(), "user");
     }
 }
