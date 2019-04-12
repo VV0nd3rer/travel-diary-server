@@ -14,17 +14,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.UnexpectedRollbackException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -39,12 +42,14 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private HttpServletRequest httpServletRequest;
+    @Autowired
+    private HttpServletResponse httpServletResponse;
 
     @Autowired
     UserRepository userRepository;
 
     @Autowired
-    AuthenticationProvider authenticationProvider;
+    AuthenticationManager authenticationManager;
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -57,16 +62,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ServiceResponse login(User requestUser) {
-        Authentication authentication = null;
-        UsernamePasswordAuthenticationToken token = new
+        UsernamePasswordAuthenticationToken authenticationTokenRequest = new
                 UsernamePasswordAuthenticationToken(requestUser.getUsername(), requestUser.getPassword());
         try {
-            authentication = this.authenticationProvider.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            Authentication authentication = this.authenticationManager.authenticate(authenticationTokenRequest);
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(authentication);
+
+            /*HttpSession session = httpServletRequest.getSession(true);
+            session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);*/
+
             User user = (User) authentication.getPrincipal();
             logger.info("Logged in user: {}", user);
-            user.setPassword(null);
-
             return new ServiceResponse(HttpStatus.OK, ServiceMessageResponse.OK, user);
 
         } catch (BadCredentialsException ex) {
@@ -75,10 +82,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServiceResponse logout(HttpServletRequest request, HttpServletResponse response) {
+    public ServiceResponse logout() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null) {
-            new SecurityContextLogoutHandler().logout(request, response, authentication);
+            new SecurityContextLogoutHandler().logout(
+                    httpServletRequest,
+                    httpServletResponse,
+                    authentication);
         }
         return new ServiceResponse(HttpStatus.OK, ServiceMessageResponse.OK);
     }
@@ -156,7 +166,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserFromSession() {
-        User currentUser = securityService.getUserFromSession();
+        User currentUser = new User();
+        Object principal = securityService.getUserFromSession();
+        if (principal instanceof User) {
+            currentUser = (User) principal;
+            return currentUser;
+        }
         return currentUser;
     }
 

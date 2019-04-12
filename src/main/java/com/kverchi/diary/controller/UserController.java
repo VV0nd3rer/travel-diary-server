@@ -36,10 +36,8 @@ public class UserController {
     }
     @GetMapping(value = "/logout")
     @ResponseBody
-    public ServiceResponse processLogout(HttpServletRequest httpServletRequest,
-                                         HttpServletResponse httpServletResponse) {
-
-        ServiceResponse response = userService.logout(httpServletRequest, httpServletResponse);
+    public ServiceResponse processLogout() {
+        ServiceResponse response = userService.logout();
         return response;
     }
     @PostMapping(value = "/register")

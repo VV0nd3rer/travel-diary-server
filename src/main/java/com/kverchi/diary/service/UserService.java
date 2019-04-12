@@ -12,8 +12,7 @@ import java.util.List;
 
 public interface UserService {
 	ServiceResponse login(User requestUser);
-	ServiceResponse logout(HttpServletRequest request,
-						   HttpServletResponse response);
+	ServiceResponse logout();
 	List<User> findAll();
 	ServiceResponse register(RegistrationForm form);
 	void activateAccount(User user);
