@@ -34,15 +34,10 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public User getUserFromSession() {
+    public Object getUserFromSession() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         Object principal = authentication.getPrincipal();
-        User currentUser = new User();
-        if (principal instanceof User) {
-            currentUser = (User) principal;
-            return currentUser;
-        }
-        return currentUser;
+        return principal;
     }
 }
