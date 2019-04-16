@@ -22,7 +22,6 @@ public class EmailMessagingConsumerListenerImpl implements EmailMessagingConsume
 
     @JmsListener(destination = "diary.email.queue")
     public void receiveEmail(Email email) {
-        logger.info("Email was received. " + email.getText());
         emailService.sendEmail(email);
     }
 }

@@ -3,11 +3,14 @@ package com.kverchi.diary.controller;
 import com.kverchi.diary.model.ServiceResponse;
 import com.kverchi.diary.model.form.RegistrationForm;
 import com.kverchi.diary.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import com.kverchi.diary.model.entity.User;
+import org.springframework.web.servlet.view.RedirectView;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +23,12 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     UserService userService;
+    @Autowired
+    HttpServletResponse httpServletResponse;
 
     @RequestMapping("/user")
     public Principal user(Principal user) {
@@ -46,4 +53,10 @@ public class UserController {
         ServiceResponse response = userService.register(form);
         return response;
     }
+    @GetMapping(value = "/confirm/{securityToken}")
+    public RedirectView confirmRegistration(@PathVariable("securityToken") String securityToken) {
+        logger.info("Security token from email: " + securityToken);
+        return new RedirectView("http://localhost:4200/login");
+    }
+
 }

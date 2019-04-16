@@ -11,11 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -28,6 +26,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 /**
  * Created by Liudmyla Melnychuk on 5.2.2019.
@@ -35,6 +34,7 @@ import java.util.HashMap;
 @Service
 public class EmailServiceImpl implements EmailService {
     private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
+    private static final String RESOURCE_BUNDLE = "localization.messages";
 
     @Value( "${credentials.email}" )
     private String credentialsEmail;
@@ -104,8 +104,9 @@ public class EmailServiceImpl implements EmailService {
                         ((email.getRecipientsAddress()).stream().toArray(String[]::new));
                 Context context = new Context();
                 context.setVariables(email.getTextVariables());
-                String emailMessage = templateEngine.process(email.getEmailType().toString(), context);
-
+                String emailMessage = templateEngine.process(email.getEmailTemplate().getTemplate(), context);
+                String subject = getLocalizationProperty(email.getEmailTemplate().getSubjectLocalizationKey());
+                messageHelper.setSubject(subject);
                 messageHelper.setText(emailMessage, true);
             });
         } catch (MailException e) {
@@ -116,6 +117,10 @@ public class EmailServiceImpl implements EmailService {
 
 
     }
-
+    private String getLocalizationProperty(String localizationKey) {
+        ResourceBundle bundle = ResourceBundle.getBundle(RESOURCE_BUNDLE);
+        String property = bundle.getString(localizationKey);
+        return property;
+    }
 
 }

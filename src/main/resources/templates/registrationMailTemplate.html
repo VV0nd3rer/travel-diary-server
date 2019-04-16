@@ -4,6 +4,10 @@
     <title th:text="#{signup.label}">Hello</title>
 </head>
 <body>
-<div><span th:text="#{registering.user.email.info}">Some fancy text</span> <span style="color:blue;" th:text="${confirmEmailLink}">link</span></div>
+<div>
+    <span th:text="#{registering.user.email.info}">Some fancy text</span>
+    <span style="color:blue;" th:text="${confirmEmailLink}">link</span>
+    <a th:href="${confirmEmailLink}">link</a>
+</div>
 </body>
 </html>

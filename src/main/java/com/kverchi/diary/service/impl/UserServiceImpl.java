@@ -3,7 +3,7 @@ package com.kverchi.diary.service.impl;
 import com.kverchi.diary.model.Email;
 import com.kverchi.diary.model.ServiceResponse;
 import com.kverchi.diary.model.entity.User;
-import com.kverchi.diary.model.enums.EmailType;
+import com.kverchi.diary.model.enums.EmailTemplate;
 import com.kverchi.diary.model.enums.ServiceMessageResponse;
 import com.kverchi.diary.model.form.RegistrationForm;
 import com.kverchi.diary.repository.UserRepository;
@@ -22,16 +22,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.UnexpectedRollbackException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Kverchi on 20.7.2018.
@@ -127,7 +122,7 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> textVariables = new HashMap<>();
         textVariables.put("confirmEmailLink", confirmLink);
         Email registrationEmail =
-                new Email(EmailType.REGISTRATION_EMAIL,
+                new Email(EmailTemplate.REGISTRATION_EMAIL,
                           recipientsAddress,
                           textVariables);
         emailMessagingProducerService.sendEmail(registrationEmail);
@@ -143,6 +138,8 @@ public class UserServiceImpl implements UserService {
         }
         return response;
     }
+
+
 
     @Override
     public void activateAccount(User user) {

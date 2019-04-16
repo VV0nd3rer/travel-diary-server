@@ -1,14 +1,10 @@
 package com.kverchi.diary.service.impl;
 
 import com.kverchi.diary.model.Email;
-import com.kverchi.diary.model.entity.User;
-import com.kverchi.diary.model.enums.EmailType;
 import com.kverchi.diary.service.EmailMessagingProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
-
-import javax.jms.Destination;
 
 /**
  * Created by Liudmyla Melnychuk on 30.1.2019.

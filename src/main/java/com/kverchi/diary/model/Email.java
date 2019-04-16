@@ -1,6 +1,6 @@
 package com.kverchi.diary.model;
 
-import com.kverchi.diary.model.enums.EmailType;
+import com.kverchi.diary.model.enums.EmailTemplate;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,59 +10,27 @@ import java.util.Map;
  * Created by Liudmyla Melnychuk on 30.1.2019.
  */
 public class Email implements Serializable {
-    private String recipientAddress;
-    private String subject;
-    private String text;
-
-    private EmailType emailType;
+    private EmailTemplate emailTemplate;
     private List<String> recipientsAddress;
     private Map<String, Object> textVariables;
 
 
     public Email() {
+
     }
-    public Email(EmailType emailType, List<String> recipientsAddress, Map<String, Object> textVariables) {
-        this.emailType = emailType;
+
+    public Email(EmailTemplate emailTemplate, List<String> recipientsAddress, Map<String, Object> textVariables) {
+        this.emailTemplate = emailTemplate;
         this.recipientsAddress = recipientsAddress;
         this.textVariables = textVariables;
     }
-    public Email(String recipientAddress, String subject, String text) {
 
-        this.recipientAddress = recipientAddress;
-        this.subject = subject;
-        this.text = text;
+    public EmailTemplate getEmailTemplate() {
+        return emailTemplate;
     }
 
-    public String getRecipientAddress() {
-        return recipientAddress;
-    }
-
-    public void setRecipientAddress(String recipientAddress) {
-        this.recipientAddress = recipientAddress;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public EmailType getEmailType() {
-        return emailType;
-    }
-
-    public void setEmailType(EmailType emailType) {
-        this.emailType = emailType;
+    public void setEmailTemplate(EmailTemplate emailTemplate) {
+        this.emailTemplate = emailTemplate;
     }
 
     public List<String> getRecipientsAddress() {

@@ -1,5 +1,6 @@
 package com.kverchi.diary.service.impl;
 
+import com.kverchi.diary.model.ServiceResponse;
 import com.kverchi.diary.model.entity.User;
 import com.kverchi.diary.model.form.RegistrationForm;
 import com.kverchi.diary.repository.UserRepository;
@@ -16,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ResourceBundle;
+
 import static org.junit.Assert.*;
 
 /**
@@ -28,6 +31,7 @@ public class UserServiceImplTest {
 
     @Autowired
     UserService userService;
+
     @Autowired
     UserRepository userRepository;
 
@@ -51,6 +55,13 @@ public class UserServiceImplTest {
         RegistrationForm form = new RegistrationForm("demo", "d3m0", "d3m0", "kverchi24@gmail.com");
         userService.register(form);
     }
+    @Test
+    public void testLocalizationProperty() throws Exception {
+        ResourceBundle bundle = ResourceBundle.getBundle("localization.messages");
+        String property = bundle.getString("signup");
+        logger.info("Localization property 'signup': " + property);
+    }
+    @Ignore
     @Test
     public void testJPA() throws Exception {
         User cloneUser = userRepository.findByUsername("demo");
