@@ -49,7 +49,7 @@
    To *download image* from Docker Hub:
      `docker pull flyingmind/travel-diary`
  3. Start a container
-   `docker run -p 8080:8080 -t -e DIARY_PASS_VAR=grateful -e spring.datasource.url=jdbc:postgresql://<db-host>:5432/diary        flyingmind/travel-diary:latest`
+   `docker run -p 8080:8080 -t -e DIARY_PASS_VAR=grateful -e spring.datasource.url=jdbc:postgresql://<your-db-host>:5432/diary        flyingmind/travel-diary:latest`
    
      
    
