@@ -26,7 +26,7 @@
      There are 2 ways to set database credentials into application's properties file: as a *plain text* or as an *encrypted values*
      
      Set credentials as a *plain text*:
-     * Open *<path-to-app>/src/main/resources/properties/local/app.properties* and set your database username and password to JDBC_DATABASE_USERNAME and JDBC_DATABASE_PASSWORD properties.
+     * Open *<path-to-app>/src/main/resources/application.properties* and set your database username and password to JDBC_DATABASE_USERNAME and JDBC_DATABASE_PASSWORD properties.
      
      Set credentials as an *encrypted values* with Jasypt encryption tool:
      * Download and install [Jasypt](http://www.jasypt.org/download.html)
