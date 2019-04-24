@@ -30,7 +30,11 @@ public class PostController {
     UserService userService;
     @Autowired
     CountriesSightService countriesSightService;
-
+    @GetMapping("/test")
+    @ResponseBody
+    public Post getTestPost() {
+        return postService.getAllPosts().get(0);
+    }
     @ModelAttribute("currentSight")
     public CountriesSight getCurrentSight () {
         return new CountriesSight();

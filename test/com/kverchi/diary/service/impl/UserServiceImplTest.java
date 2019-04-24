@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ResourceBundle;
@@ -43,7 +44,7 @@ public class UserServiceImplTest {
         request.setServerPort(8080);
         request.setScheme("http");
     }
-    @Ignore
+
     @Test
     public void testGenerateServerBaseUrl() throws Exception {
         String url = UserService.generateServerBaseUrl(request);
@@ -51,20 +52,23 @@ public class UserServiceImplTest {
     }
     @Ignore
     @Test
-    public void testRegister() throws Exception {
-        RegistrationForm form = new RegistrationForm("demo", "d3m0", "d3m0", "kverchi24@gmail.com");
+    public void testRegistration() throws Exception {
+        RegistrationForm form = new RegistrationForm("demo", "d3m0", "d3m0", "kverchi2@gmail.com");
         userService.register(form);
     }
+
     @Test
     public void testLocalizationProperty() throws Exception {
         ResourceBundle bundle = ResourceBundle.getBundle("localization.messages");
         String property = bundle.getString("signup");
         logger.info("Localization property 'signup': " + property);
+        assertEquals("Registration", property);
     }
+
     @Ignore
     @Test
     public void testJPA() throws Exception {
-        User cloneUser = userRepository.findByUsername("demo");
-        logger.info("princess user: {}", cloneUser);
+        User clonedUser = userRepository.findByUsername("demo");
+        logger.info("princess user: {}", clonedUser);
     }
 }

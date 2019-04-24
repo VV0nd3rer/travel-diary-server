@@ -26,6 +26,11 @@ public class MainController {
 		return userService.getUserFromSession();
 	}
 
+	@GetMapping("/echo")
+	@ResponseBody
+	public String echo() {
+		return "Hello from main controller.";
+	}
 	@RequestMapping("/transaction-error")
 	public ModelAndView showTransactionErrorPage() {
 		ModelAndView mv = new ModelAndView("error/transaction-error");
