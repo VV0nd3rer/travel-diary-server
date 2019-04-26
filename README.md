@@ -38,7 +38,7 @@
 
 ### How to deploy Docker container
 > To get started with Docker read [Docker guide](https://docs.docker.com/get-started/)
-1. Prepeare your database as described in *step 3* of " How to deploy on your local machine"
+1. Prepeare your database as described [here](https://github.com/kverchi/diary-db-backup/tree/master)
 2. You can *build Docker image* from a source code or *download image* from a [Docker Hub](https://hub.docker.com)
    
    To *build Docker image*:
@@ -49,7 +49,7 @@
    To *download image* from Docker Hub:
      `docker pull flyingmind/travel-diary`
  3. Start a container
-   `docker run -p 8080:8080 -t -e DIARY_PASS_VAR=<Jasypt-encryption-key> -e spring.datasource.url=jdbc:postgresql://<your-db-host>:5432/diary        flyingmind/travel-diary:latest`
+   `docker run --name <container-name> -p 8080:8080 -t -e DIARY_PASS_VAR=<Jasypt-encryption-key> -e spring.datasource.url=jdbc:postgresql://<your-db-host>:5432/diary        flyingmind/travel-diary:latest`
    
      
    
