@@ -2,8 +2,6 @@ package com.kverchi.diary.config;
 
 
 import com.google.common.collect.ImmutableList;
-import com.kverchi.diary.security.CrossDomainCsrfTokenRepository;
-import com.kverchi.diary.security.XSRFTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
