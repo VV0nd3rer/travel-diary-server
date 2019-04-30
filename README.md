@@ -17,27 +17,33 @@
      * Clone or download application database backup file form here https://github.com/kverchi/diary-db-backup.git
      * Create the database with name *diary*
      * Restore postgresql backup file *diary-v2.0.tar* on your local Postgresql server for newly created database *diary*. [How to restore backup](https://www.postgresql.org/docs/9.6/backup-dump.html#BACKUP-DUMP-RESTORE) 
-    
-    * Install *pgcrypto* extension `CREATE EXTENSION pgcrypto;` into your current database. [How to install an extension](https://www.postgresql.org/docs/9.6/sql-createextension.html) 
-     * Store encrypt.key value in <path-to-your-postgresql>/data/postgresql.conf configuration file (ask me for this encryption key)
-    
-    * Set database credentials for connection to your database. 
+     
+    * Set database credentials for connection to your database 
      
      There are 2 ways to set database credentials into application's properties file: as a *plain text* or as an *encrypted values*
      
-     Set credentials as a *plain text*:
+     a. Set credentials as a *plain text*:
      * Open *<path-to-app>/src/main/resources/application.properties* and set your database username and password to JDBC_DATABASE_USERNAME and JDBC_DATABASE_PASSWORD properties.
      
-     Set credentials as an *encrypted values* with Jasypt encryption tool:
+     b. Set credentials as an *encrypted values* with Jasypt encryption tool:
      * Download and install [Jasypt](http://www.jasypt.org/download.html)
      * Set Jasypt enctiption key (ask me for Jasypt encryption key) as local environment variable DIARY_PASS_VAR. [How to set environment variable in Windows](https://www.computerhope.com/issues/ch000549.htm) and [how to set environment variable in Linux](https://www.tecmint.com/set-path-variable-linux-permanently/).
      * Encrypt your database username and password with your environment variable. [How to encrypt with Jasypt](https://apereo.atlassian.net/wiki/spaces/CASUM/pages/103261428/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files)
      * Open *<path-to-app>/src/main/resources/application.properties* and set your encrypted username and encrypted password to JDBC_DATABASE_USERNAME and JDBC_DATABASE_PASSWORD properties
+    
+     #### If you are going to send emails from this server, make sure OAuth 2.0 access tokens can be decrypted:
+    
+    * Install *pgcrypto* extension `CREATE EXTENSION pgcrypto;` into your current database. [How to install an extension](https://www.postgresql.org/docs/9.6/sql-createextension.html) 
+    * Store encrypt.key value in <path-to-your-postgresql>/data/postgresql.conf configuration file (ask me for this encryption key)
+    
      
-4. Open project's directory in terminal, build and start your project with Maven tool `mvn spring-boot:run`. [How to install Maven](https://maven.apache.org/install.html).
+4. Open project's directory in terminal, build and start your project with Maven tool `mvn spring-boot:run`. [How to install Maven](https://maven.apache.org/install.html)
+
+   This project uses [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-profiles.html) and the default profile is *dev*. To use other profiles, make sure they are enabled. [How to enable Spring profiles](https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-profiles.html) 
+
 
 ### How to deploy Docker container
-> To get started with Docker read [Docker guide](https://docs.docker.com/get-started/)
+> To get started with Docker, read [Docker guide](https://docs.docker.com/get-started/)
 1. Prepeare your database as described [here](https://github.com/kverchi/diary-db-backup/tree/master)
 2. You can *build Docker image* from a source code or *download image* from a [Docker Hub](https://hub.docker.com)
    
@@ -49,7 +55,7 @@
    To *download image* from Docker Hub:
      `docker pull flyingmind/travel-diary`
  3. Start a container
-   `docker run --name <container-name> -p 8080:8080 -t -e DIARY_PASS_VAR=<Jasypt-encryption-key> -e spring.datasource.url=jdbc:postgresql://<your-db-host>:5432/diary        flyingmind/travel-diary:latest`
+   `docker run --name <container-name> -p 8080:8080 -t -e DIARY_PASS_VAR=<Jasypt-encryption-key> -e spring.datasource.url=jdbc:postgresql://<your-db-host>:5432/diary -e spring.datasource.username=<your-db-username> -e spring.datasource.password=<your-db-pass> flyingmind/travel-diary:latest`
    
      
    
