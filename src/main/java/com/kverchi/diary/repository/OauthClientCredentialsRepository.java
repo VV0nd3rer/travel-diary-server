@@ -12,4 +12,5 @@ import java.util.List;
 @Repository
 public interface OauthClientCredentialsRepository extends JpaRepository<OauthClientCredentials, Integer> {
     List<OauthClientCredentials> findByCredentialsEmail(String credentialsEmail);
+    OauthClientCredentials findTopByCredentialsEmail(String credentialsEmail);
 }

@@ -166,7 +166,7 @@
     <orderEntry type="library" name="Maven: org.webjars:jquery:1.9.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:jquery-ui:1.12.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bower:twbs-pagination:1.4.1" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars.bower:jquery:3.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.webjars.bower:jquery:3.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.bower:tinymce:4.7.13" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-devtools:2.1.3.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.icegreen:greenmail:1.5.0" level="project" />
