@@ -2,6 +2,7 @@
 ### Used technologies:
 * Java 8
 * Spring Boot 2.X with embedded Tomcat server
+* JPA 2.1 and Hibernate 5.1
 * Postgresql 9.6
 * Apache ActiveMQ Artemis 2.X
 * OAuth 2.0
@@ -10,7 +11,7 @@
 ### How to deploy on your local machine
 1. Clone or download [Travel diary web application server](https://github.com/kverchi/travel-diary-server.git). 
      * Use your favorite IDE for development: [Spring Tool Suite for Eclipse](https://spring.io/tools), [IntelliJ IDEA](https://www.jetbrains.com/idea/), etc.
-2. Clone or download [travel-diary-server project](https://github.com/kverchi/travel-diary-server.git)
+2. Set Jasypt enctiption key (ask me for Jasypt encryption key) as local environment variable DIARY_PASS_VAR. [How to set environment variable in Windows](https://www.computerhope.com/issues/ch000549.htm) and [how to set environment variable in Linux](https://www.tecmint.com/set-path-variable-linux-permanently/).
 
 3. Prepeare you local database:
      * Download and install [PostgreSQL](https://www.postgresql.org/download/). Optionally, you can download and install [pgAdmin 4](https://www.pgadmin.org/download/) which is an administration and development platform for PostgreSQL.
@@ -27,15 +28,9 @@
      
      b. Set credentials as an *encrypted values* with Jasypt encryption tool:
      * Download and install [Jasypt](http://www.jasypt.org/download.html)
-     * Set Jasypt enctiption key (ask me for Jasypt encryption key) as local environment variable DIARY_PASS_VAR. [How to set environment variable in Windows](https://www.computerhope.com/issues/ch000549.htm) and [how to set environment variable in Linux](https://www.tecmint.com/set-path-variable-linux-permanently/).
      * Encrypt your database username and password with your environment variable. [How to encrypt with Jasypt](https://apereo.atlassian.net/wiki/spaces/CASUM/pages/103261428/HOWTO+Use+Jasypt+to+encrypt+passwords+in+configuration+files)
      * Open *<path-to-app>/src/main/resources/application.properties* and set your encrypted username and encrypted password to JDBC_DATABASE_USERNAME and JDBC_DATABASE_PASSWORD properties
-    
-     #### If you are going to send emails from this server, make sure OAuth 2.0 access tokens can be decrypted:
-    
-    * Install *pgcrypto* extension `CREATE EXTENSION pgcrypto;` into your current database. [How to install an extension](https://www.postgresql.org/docs/9.6/sql-createextension.html) 
-    * Store encrypt.key value in <path-to-your-postgresql>/data/postgresql.conf configuration file (ask me for this encryption key)
-    
+     * Check your local environment variable DIARY_PASS_VAR (see step 2)
      
 4. Open project's directory in terminal, build and start your project with Maven tool `mvn spring-boot:run`. [How to install Maven](https://maven.apache.org/install.html)
 
