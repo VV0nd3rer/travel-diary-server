@@ -1,4 +1,4 @@
-package com.kverchi.diary.security;
+package com.kverchi.diary.springframework.security;
 
 import com.kverchi.diary.model.entity.User;
 import com.kverchi.diary.repository.UserRepository;

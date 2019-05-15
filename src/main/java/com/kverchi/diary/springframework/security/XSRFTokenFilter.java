@@ -1,4 +1,4 @@
-package com.kverchi.diary.security;
+package com.kverchi.diary.springframework.security;
 
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.filter.OncePerRequestFilter;
