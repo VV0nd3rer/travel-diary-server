@@ -3,7 +3,7 @@ package com.kverchi.diary.model.enums;
 /**
  * Created by Kverchi on 18.7.2018.
  */
-public enum PostSearchCriteria {
+public enum PostSearchingCriteria {
     BY_AUTHOR_ID,
     BY_SIGHT_ID,
     BY_TEXT,

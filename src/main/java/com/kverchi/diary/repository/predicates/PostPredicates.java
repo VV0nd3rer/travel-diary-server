@@ -1,7 +1,7 @@
 package com.kverchi.diary.repository.predicates;
 
 import com.kverchi.diary.model.entity.QPost;
-import com.kverchi.diary.model.enums.PostSearchCriteria;
+import com.kverchi.diary.model.enums.PostSearchingCriteria;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 
@@ -33,10 +33,10 @@ public class PostPredicates {
         return post.title.containsIgnoreCase(text);
     }
 
-    public static Predicate searchPost(Map<PostSearchCriteria, Object> searchAttributes) {
+    public static Predicate searchPost(Map<PostSearchingCriteria, Object> searchAttributes) {
         BooleanBuilder builder = new BooleanBuilder();
 
-        for (Map.Entry<PostSearchCriteria, Object> entry : searchAttributes.entrySet()) {
+        for (Map.Entry<PostSearchingCriteria, Object> entry : searchAttributes.entrySet()) {
             switch (entry.getKey()) {
                 case BY_AUTHOR_ID:
                     builder.and(post.user.userId.eq((Integer) entry.getValue()));
