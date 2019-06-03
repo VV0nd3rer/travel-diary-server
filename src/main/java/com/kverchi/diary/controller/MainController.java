@@ -13,10 +13,7 @@ import java.util.UUID;
 @Controller
 public class MainController {
 
-	/*@GetMapping(value = "/{path:[^\\.]*}")
-	public String redirect() {
-		return "redirect:/";
-	}*/
+
 	@Autowired
 	UserService userService;
 
@@ -31,20 +28,5 @@ public class MainController {
 	public String echo() {
 		return "Hello from main controller.";
 	}
-	@RequestMapping("/transaction-error")
-	public ModelAndView showTransactionErrorPage() {
-		ModelAndView mv = new ModelAndView("error/transaction-error");
-		return mv;
-	}
-	@RequestMapping("/denied")
-	public ModelAndView showDeniedPage() {
-		ModelAndView mv = new ModelAndView("error/denied-error");
-		mv.addObject("result", "Page denied");
-		return mv;
-	}
-	/*@RequestMapping("/")
-	public ModelAndView showMainPage() {
-		ModelAndView mv = new ModelAndView("redirect:/posts");
-		return mv;
-	}*/
+
 }
