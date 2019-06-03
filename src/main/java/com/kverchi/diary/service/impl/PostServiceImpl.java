@@ -9,8 +9,8 @@ import com.kverchi.diary.model.ServiceResponse;
 import com.kverchi.diary.model.enums.PostSearchingCriteria;
 import com.kverchi.diary.repository.PostRepository;
 import com.querydsl.core.BooleanBuilder;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +22,7 @@ import static com.kverchi.diary.repository.predicates.PostPredicates.*;
 
 @Service
 public class PostServiceImpl implements PostService {
-	final static Logger logger = LogManager.getLogger(PostServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
 	@Autowired
 	PostRepository postRepository;

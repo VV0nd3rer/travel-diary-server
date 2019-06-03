@@ -4,8 +4,8 @@ import com.kverchi.diary.model.entity.CountriesSight;
 import com.kverchi.diary.repository.CountriesSightRepository;
 import com.kverchi.diary.service.CountriesSightService;
 import com.kverchi.diary.service.CountryService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.kverchi.diary.model.entity.Country;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Service
 public class CountriesSightServiceImpl implements CountriesSightService {
-    final static Logger logger = LogManager.getLogger(CountriesSightServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(CountriesSightServiceImpl.class);
     @Autowired
     CountriesSightRepository countriesSightRepository;
     @Autowired
