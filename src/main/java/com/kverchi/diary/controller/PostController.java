@@ -6,9 +6,11 @@ import com.kverchi.diary.service.PostService;
 import com.kverchi.diary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,10 +33,16 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts() {
+    public ResponseEntity<Resources<Resource<Post>>> getAllPosts() {
         List<Post> postList = postService.getAllPosts();
         if(!postList.isEmpty()) {
-            return new ResponseEntity<List<Post>>(postList, HttpStatus.OK);
+            Resources<Resource<Post>> postResources = Resources.wrap(postList);
+            postResources.add(
+                    ControllerLinkBuilder.linkTo(
+                            ControllerLinkBuilder.methodOn(PostController.class).getAllPosts())
+                    .withRel("all")
+            );
+            return new ResponseEntity<Resources<Resource<Post>>>(postResources, HttpStatus.OK);
         }
         return new ResponseEntity(null, HttpStatus.NOT_FOUND);
     }
