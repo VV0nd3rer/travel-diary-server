@@ -2,6 +2,7 @@ package com.kverchi.diary.service.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.kverchi.diary.model.PostSearchRequest;
 import com.kverchi.diary.model.entity.Post;
@@ -74,33 +75,18 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post getPostById(int postId) {
-		return postRepository.getOne(postId);
+	public Optional<Post> getPostById(int id) {
+		return postRepository.findById(id);
 	}
 
 	@Override
-	public ServiceResponse addPost(Post post) {
-		return null;
+	public Post savePost(Post post) {
+		return postRepository.save(post);
 	}
 
 	@Override
-	public ServiceResponse updatePost(Post post) {
-		return null;
-	}
-
-	@Override
-	public void deletePost(int post_id) {
-
-	}
-
-	@Override
-	public List<Post> getSightPosts(int sightId) {
-		return postRepository.findByCountriesSightSightId(sightId);
-	}
-
-	@Override
-	public Page<Post> getSightPosts(Pageable pageable) {
-		return null;
+	public Post updatePost(Post post) {
+		return postRepository.save(post);
 	}
 
 

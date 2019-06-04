@@ -1,6 +1,7 @@
 package com.kverchi.diary.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.kverchi.diary.model.PostSearchRequest;
 import com.kverchi.diary.model.ServiceResponse;
@@ -15,13 +16,8 @@ public interface PostService {
 
 	Page<Post> searchPosts(PostSearchRequest postSearchRequest);
 
-	Post getPostById(int postId);
-
-	ServiceResponse addPost(Post post);
-	ServiceResponse updatePost(Post post);
-	void deletePost(int post_id);
-
-	List<Post> getSightPosts(int sightId);
-	Page<Post> getSightPosts(Pageable pageable);
+	Optional<Post> getPostById(int id);
+	Post savePost(Post post);
+	Post updatePost(Post post);
 
 }
