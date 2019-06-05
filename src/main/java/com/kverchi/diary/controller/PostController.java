@@ -7,6 +7,7 @@ import com.kverchi.diary.model.entity.Post;
 import com.kverchi.diary.service.PostService;
 import com.kverchi.diary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -69,6 +70,15 @@ public class PostController {
         return postService.savePost(post);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePost(@PathVariable("id") int id) {
+        try {
+            postService.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+
+        }
+    }
     @GetMapping("/page/{currentPage}")
     @ResponseBody
     public List<Post> getPostsPage(@PathVariable("currentPage") int currentPage) {
