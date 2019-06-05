@@ -1,5 +1,7 @@
 package com.kverchi.diary.controller;
 
+import com.kverchi.diary.hateoas.assembler.PostResourceAssembler;
+import com.kverchi.diary.hateoas.resource.PostResource;
 import com.kverchi.diary.model.PostSearchRequest;
 import com.kverchi.diary.model.entity.Post;
 import com.kverchi.diary.service.PostService;
@@ -33,24 +35,27 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<Resources<Resource<Post>>> getAllPosts() {
+    public ResponseEntity<Resources<PostResource>> getAllPosts() {
         List<Post> postList = postService.getAllPosts();
         if(!postList.isEmpty()) {
-            Resources<Resource<Post>> postResources = Resources.wrap(postList);
-            postResources.add(
+            List<PostResource> postResources = new PostResourceAssembler().toResources(postList);
+            Resources<PostResource> allResources = new Resources<PostResource>(postResources);
+            allResources.add(
                     ControllerLinkBuilder.linkTo(
                             ControllerLinkBuilder.methodOn(PostController.class).getAllPosts())
                     .withRel("all")
             );
-            return new ResponseEntity<Resources<Resource<Post>>>(postResources, HttpStatus.OK);
+            return new ResponseEntity<Resources<PostResource>>(allResources, HttpStatus.OK);
         }
         return new ResponseEntity(null, HttpStatus.NOT_FOUND);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable("id") int id) {
+    public ResponseEntity<PostResource> getPostById(@PathVariable("id") int id) {
         Optional<Post> postOptional = postService.getPostById(id);
         if(postOptional.isPresent()) {
-            return new ResponseEntity<Post>(postOptional.get(), HttpStatus.OK);
+            PostResource postResource = new PostResourceAssembler().toResource(postOptional.get());
+
+            return new ResponseEntity<PostResource>(postResource, HttpStatus.OK);
         }
         return new ResponseEntity(null, HttpStatus.NOT_FOUND);
     }
