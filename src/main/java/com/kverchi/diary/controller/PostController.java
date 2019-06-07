@@ -2,21 +2,21 @@ package com.kverchi.diary.controller;
 
 import com.kverchi.diary.hateoas.assembler.PostResourceAssembler;
 import com.kverchi.diary.hateoas.resource.PostResource;
-import com.kverchi.diary.model.PostSearchRequest;
 import com.kverchi.diary.model.entity.Post;
 import com.kverchi.diary.service.PostService;
 import com.kverchi.diary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -25,6 +25,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/posts")
 public class PostController {
+    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
+
     @Autowired
     PostService postService;
     @Autowired
@@ -35,7 +37,7 @@ public class PostController {
         return postService.getAllPosts().get(0);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<Resources<PostResource>> getAllPosts() {
         List<Post> postList = postService.getAllPosts();
         if(!postList.isEmpty()) {
@@ -45,6 +47,23 @@ public class PostController {
                     ControllerLinkBuilder.linkTo(
                             ControllerLinkBuilder.methodOn(PostController.class).getAllPosts())
                     .withRel("all")
+            );
+            return new ResponseEntity<Resources<PostResource>>(allResources, HttpStatus.OK);
+        }
+        return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+    }
+    @GetMapping
+    public ResponseEntity<Resources<PostResource>> getPosts(
+            @RequestParam(required = false) Map<String, String> reqParams) {
+
+        Page<Post> postList = postService.getPosts(reqParams);
+        if(!postList.isEmpty()) {
+            List<PostResource> postResources = new PostResourceAssembler().toResources(postList);
+            Resources<PostResource> allResources = new Resources<PostResource>(postResources);
+            allResources.add(
+                    ControllerLinkBuilder.linkTo(
+                            ControllerLinkBuilder.methodOn(PostController.class).getAllPosts())
+                            .withRel("all")
             );
             return new ResponseEntity<Resources<PostResource>>(allResources, HttpStatus.OK);
         }
@@ -92,13 +111,5 @@ public class PostController {
         Page<Post> page = postService.getAllPosts(currentPage, pageSize);
         return page;
     }
-    @PostMapping("/search")
-    @ResponseBody
-    public Page<Post> search(@RequestBody PostSearchRequest postSearchRequest) {
-        Page<Post> page = postService.searchPosts(postSearchRequest);
-        return page;
-    }
-
-
 
 }
