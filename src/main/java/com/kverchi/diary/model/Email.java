@@ -1,6 +1,6 @@
 package com.kverchi.diary.model;
 
-import com.kverchi.diary.model.enums.EmailTemplate;
+import com.kverchi.diary.service.email.impl.EmailTemplate;
 
 import java.io.Serializable;
 import java.util.List;

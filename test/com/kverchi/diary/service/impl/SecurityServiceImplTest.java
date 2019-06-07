@@ -1,8 +1,7 @@
 package com.kverchi.diary.service.impl;
 
-import com.kverchi.diary.model.entity.User;
-import com.kverchi.diary.service.SecurityService;
-import org.junit.Ignore;
+import com.kverchi.diary.service.security.SecurityService;
+import com.kverchi.diary.service.security.impl.SecurityServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -11,11 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.Repeat;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.security.Principal;
 
 import static org.junit.Assert.*;
 

@@ -1,6 +1,6 @@
 package com.kverchi.diary.service.impl;
 
-import com.kverchi.diary.service.EncryptionService;
+import com.kverchi.diary.service.security.EncryptionService;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

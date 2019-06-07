@@ -1,11 +1,9 @@
 package com.kverchi.diary.service.impl;
 
-import com.kverchi.diary.model.ServiceResponse;
 import com.kverchi.diary.model.entity.User;
 import com.kverchi.diary.model.form.RegistrationForm;
 import com.kverchi.diary.repository.UserRepository;
-import com.kverchi.diary.service.UserService;
-import org.junit.Before;
+import com.kverchi.diary.service.user.UserService;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ResourceBundle;

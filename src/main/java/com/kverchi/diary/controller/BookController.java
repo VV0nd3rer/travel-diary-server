@@ -1,7 +1,7 @@
 package com.kverchi.diary.controller;
 
 import com.kverchi.diary.model.entity.Book;
-import com.kverchi.diary.service.BookService;
+import com.kverchi.diary.service.book.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

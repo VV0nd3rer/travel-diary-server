@@ -1,19 +1,17 @@
 package com.kverchi.diary.controller;
 
-import com.kverchi.diary.model.ServiceResponse;
+import com.kverchi.diary.service.user.impl.ServiceResponse;
 import com.kverchi.diary.model.form.RegistrationForm;
-import com.kverchi.diary.service.UserService;
+import com.kverchi.diary.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import com.kverchi.diary.model.entity.User;
 import org.springframework.web.servlet.view.RedirectView;
 
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
