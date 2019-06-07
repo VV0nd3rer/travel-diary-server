@@ -1,7 +1,6 @@
 package com.kverchi.diary.repository.predicates;
 
 import com.kverchi.diary.model.entity.QPost;
-import com.kverchi.diary.model.enums.PostSearchingCriteria;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 
@@ -31,26 +30,6 @@ public class PostPredicates {
 
     public static Predicate searchInTitleOnly(String text) {
         return post.title.containsIgnoreCase(text);
-    }
-
-    public static Predicate searchPost(Map<PostSearchingCriteria, Object> searchAttributes) {
-        BooleanBuilder builder = new BooleanBuilder();
-
-        for (Map.Entry<PostSearchingCriteria, Object> entry : searchAttributes.entrySet()) {
-            switch (entry.getKey()) {
-                case BY_AUTHOR_ID:
-                    builder.and(post.user.userId.eq((Integer) entry.getValue()));
-                    break;
-                case BY_SIGHT_ID:
-                    builder.and(post.countriesSight.sightId.eq((Integer) entry.getValue()));
-                    break;
-                case BY_TEXT:
-                    //TODO search in text, title and description
-                    builder.and(post.text.containsIgnoreCase((String) entry.getValue()));
-                    break;
-            }
-        }
-        return builder;
     }
 
 }
