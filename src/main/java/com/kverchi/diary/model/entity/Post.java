@@ -15,8 +15,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
 @Table(name="posts")
 public class Post {
@@ -39,7 +37,7 @@ public class Post {
 	private CountriesSight countriesSight;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id")
-	private User user;
+	private User author;
 	/*@OneToMany(fetch=FetchType.LAZY, orphanRemoval=true)
 	@JoinColumn(name="post_id")
 	private Set<Comment> postComments;*/
@@ -117,11 +115,11 @@ public class Post {
 		this.postComments = postComments;
 	}*/
 	
-	public User getUser() {
-		return user;
+	public User getAuthor() {
+		return author;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setAuthor(User author) {
+		this.author = author;
 	}
 	@Override
 	public String toString(){

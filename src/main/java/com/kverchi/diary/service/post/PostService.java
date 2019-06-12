@@ -7,11 +7,13 @@ import java.util.Optional;
 import com.kverchi.diary.model.entity.Post;
 import org.springframework.data.domain.Page;
 
+import com.querydsl.core.types.Predicate;
+
 public interface PostService {
 	List<Post> getAllPosts();
 	Page<Post> getAllPosts(int currentPage);
 	Page<Post> getAllPosts(int currentPage, int pageSize);
-	Page<Post> getPosts(Map<String, String> reqParams);
+	Page<Post> getPosts(Predicate predicate, int page, int size, String sorting);
 	Optional<Post> getPostById(int id);
 	Post savePost(Post post);
 	Post updatePost(Post post);

@@ -2,12 +2,15 @@ package com.kverchi.diary.controller;
 
 import com.kverchi.diary.hateoas.assembler.PostResourceAssembler;
 import com.kverchi.diary.hateoas.resource.PostResource;
+import com.kverchi.diary.model.PaginationResponse;
 import com.kverchi.diary.model.entity.Post;
 import com.kverchi.diary.service.post.PostService;
 import com.kverchi.diary.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
+import com.querydsl.core.types.Predicate;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.hateoas.Resources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -15,8 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -26,6 +29,10 @@ import java.util.Optional;
 @RequestMapping("/posts")
 public class PostController {
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);
+
+    private static final String DEFAULT_PAGE_SIZE_VALUE = "5";
+    private static final String DEFAULT_CURRENT_PAGE_VALUE = "0";
+    private static final String DEFAULT_SORTING_VALUE = "unsorted";
 
     @Autowired
     PostService postService;
@@ -40,24 +47,7 @@ public class PostController {
     @GetMapping("/all")
     public ResponseEntity<Resources<PostResource>> getAllPosts() {
         List<Post> postList = postService.getAllPosts();
-        if(!postList.isEmpty()) {
-            List<PostResource> postResources = new PostResourceAssembler().toResources(postList);
-            Resources<PostResource> allResources = new Resources<PostResource>(postResources);
-            allResources.add(
-                    ControllerLinkBuilder.linkTo(
-                            ControllerLinkBuilder.methodOn(PostController.class).getAllPosts())
-                    .withRel("all")
-            );
-            return new ResponseEntity<Resources<PostResource>>(allResources, HttpStatus.OK);
-        }
-        return new ResponseEntity(null, HttpStatus.NOT_FOUND);
-    }
-    @GetMapping
-    public ResponseEntity<Resources<PostResource>> getPosts(
-            @RequestParam(required = false) Map<String, String> reqParams) {
-
-        Page<Post> postList = postService.getPosts(reqParams);
-        if(!postList.isEmpty()) {
+        if (!postList.isEmpty()) {
             List<PostResource> postResources = new PostResourceAssembler().toResources(postList);
             Resources<PostResource> allResources = new Resources<PostResource>(postResources);
             allResources.add(
@@ -66,6 +56,33 @@ public class PostController {
                             .withRel("all")
             );
             return new ResponseEntity<Resources<PostResource>>(allResources, HttpStatus.OK);
+        }
+        return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+    }
+    @GetMapping
+    public ResponseEntity<PaginationResponse> getPosts(
+            @QuerydslPredicate(root = Post.class) Predicate predicate,
+            @RequestParam(name = "page", defaultValue = DEFAULT_CURRENT_PAGE_VALUE) int page,
+            @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE_VALUE) int size,
+            @RequestParam(name = "sorting", defaultValue = DEFAULT_SORTING_VALUE) String sorting) {
+
+        Page<Post> postList = postService.getPosts(predicate, page, size, sorting);
+
+        if(!postList.isEmpty()) {
+            PaginationResponse paginationResponse = new PaginationResponse(page, size,
+                    postList.getTotalPages(), postList.getTotalElements());
+            List<PostResource> postResources = new PostResourceAssembler().toResources(postList);
+            Resources<PostResource> allResources = new Resources<PostResource>(postResources);
+            allResources.add(
+                    ControllerLinkBuilder.linkTo(
+                            ControllerLinkBuilder.methodOn(PostController.class)
+                                    .getPosts(predicate,
+                                            page,
+                                            size,
+                                            sorting)).withSelfRel()
+            );
+            paginationResponse.setResources(allResources);
+            return new ResponseEntity<PaginationResponse>(paginationResponse, HttpStatus.OK);
         }
         return new ResponseEntity(null, HttpStatus.NOT_FOUND);
     }
