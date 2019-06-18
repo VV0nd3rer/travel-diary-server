@@ -13,7 +13,7 @@ public class PostPredicates {
     private static QPost post = QPost.post;
 
     public static Predicate searchByAuthorId(int userId) {
-        return post.user.userId.eq(userId);
+        return post.author.userId.eq(userId);
     }
 
     public static Predicate searchBySightId(int sightId) {
