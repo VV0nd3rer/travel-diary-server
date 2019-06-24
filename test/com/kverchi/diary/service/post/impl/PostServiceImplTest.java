@@ -2,6 +2,7 @@ package com.kverchi.diary.service.post.impl;
 
 import com.kverchi.diary.model.entity.Post;
 import com.kverchi.diary.repository.PostRepository;
+import com.querydsl.core.types.Predicate;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +41,8 @@ public class PostServiceImplTest {
     @Test
     public void findPostsPreviewTest() throws Exception {
         Pageable pageable = PageRequest.of(0, 15);
-        Page<Post> page = postRepository.findPostsPreview(pageable);
+        Predicate predicate = null;
+        Page<Post> page = postRepository.findPostsPreview(predicate, pageable);
         List<Post> posts = page.getContent();
     }
 }

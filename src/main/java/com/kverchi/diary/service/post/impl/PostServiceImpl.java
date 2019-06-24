@@ -73,7 +73,7 @@ public class PostServiceImpl implements PostService {
         }
 
         Pageable pageable = PageRequest.of(page, size, sort);
-        Page<Post> posts = postRepository.findAll(predicate, pageable);
+        Page<Post> posts = postRepository.findPostsPreview(predicate, pageable);
         return posts;
     }
 
