@@ -28,6 +28,8 @@ public class Post {
 	private ZonedDateTime updatedAt;
 	@Column(name="title")
 	private String title;
+	@Column(name="preview_image_url")
+	private String previewImageUrl;
 	@Column(name="description")
 	private String description;
 	@Column(name="text")
@@ -48,7 +50,16 @@ public class Post {
 		this.title = title;
 		this.text = text;
 	}
-
+	public Post(int postId, String title, String text, String previewImageUrl,
+				CountriesSight countriesSight, User author, ZonedDateTime createdAt) {
+		this.postId = postId;
+		this.title = title;
+		this.text = text;
+		this.previewImageUrl = previewImageUrl;
+		this.countriesSight = countriesSight;
+		this.author = author;
+		this.createdAt = createdAt;
+	}
 	public int getPostId() {
 		return postId;
 	}
@@ -94,6 +105,12 @@ public class Post {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public String getPreviewImageUrl() {
+		return previewImageUrl;
+	}
+	public void setPreviewImageUrl(String previewImageUrl) {
+		this.previewImageUrl = previewImageUrl;
 	}
 	public String getText() {
 		return text;
