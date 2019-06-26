@@ -4,15 +4,12 @@ package com.kverchi.diary.model.entity;
  * Created by Liudmyla Melnychuk on 18.2.2019.
  */
 
-import com.kverchi.diary.model.filtering.EncryptionEntityListener;
+import com.kverchi.diary.converter.CryptoConverter;
 import org.hibernate.annotations.ColumnTransformer;
 
 import javax.persistence.*;
 
 @Entity
-@EntityListeners(
-        EncryptionEntityListener.class
-)
 @Table(name="oauth_client_credentials")
 public class OauthClientCredentials {
 
@@ -22,24 +19,29 @@ public class OauthClientCredentials {
     private int credentialsId;
 
     @Column(name="refresh_token")
+    @Convert(converter = CryptoConverter.class)
     private String refreshToken;
 
     @Column(name="token_url")
     private String tokenUrl;
 
     @Column(name="oauth_client_id")
+    @Convert(converter = CryptoConverter.class)
     private String oauthClientId;
 
     @Column(name="oauth_secret")
+    @Convert(converter = CryptoConverter.class)
     private String oauthSecret;
 
     @Column(name="access_token")
+    @Convert(converter = CryptoConverter.class)
     private String accessToken;
 
     @Column(name="token_expires")
     private long tokenExpires;
 
     @Column(name="credentials_email")
+    @Convert(converter = CryptoConverter.class)
     private String credentialsEmail;
 
     public int getCredentialsId() {
