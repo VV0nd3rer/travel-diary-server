@@ -11,13 +11,13 @@ import java.time.ZonedDateTime;
 public class PostResource extends ResourceSupport {
     private final int postId;
     private final String title;
-    private final String text;
+    private final String description;
     private final String previewImageUrl;
     private final ZonedDateTime createdAt;
     public PostResource(Post post) {
         this.postId = post.getPostId();
         this.title = post.getTitle();
-        this.text = post.getText();
+        this.description = post.getDescription();
         this.previewImageUrl = post.getPreviewImageUrl();
         this.createdAt = post.getCreatedAt();
     }
@@ -27,8 +27,8 @@ public class PostResource extends ResourceSupport {
     public String getTitle() {
         return title;
     }
-    public String getText() {
-        return text;
+    public String getDescription() {
+        return description;
     }
 
     public String getPreviewImageUrl() {

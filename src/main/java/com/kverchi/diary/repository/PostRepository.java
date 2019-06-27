@@ -16,10 +16,4 @@ import java.util.List;
  */
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer>, QuerydslPredicateExecutor<Post> {
-    @Query("SELECT new com.kverchi.diary.model.entity.Post(p.postId, p.title, " +
-            "CASE WHEN (p.previewImageUrl IS NULL) THEN SUBSTRING(p.text, 1, 50) " +
-            "ELSE SUBSTRING(p.text, 1, 30) " +
-            "END, " +
-            "p.previewImageUrl, p.countriesSight, p.author, p.createdAt) from Post p")
-    Page<Post> findPostsPreview(Predicate predicate, Pageable pageable);
 }

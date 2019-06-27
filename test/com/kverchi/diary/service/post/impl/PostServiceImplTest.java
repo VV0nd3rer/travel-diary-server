@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -38,11 +39,27 @@ public class PostServiceImplTest {
         List<Post> posts = page.getContent();
         logger.info("Page content: " + posts.get(0).getTitle());
     }
+    @Ignore
     @Test
     public void findPostsPreviewTest() throws Exception {
         Pageable pageable = PageRequest.of(0, 15);
         Predicate predicate = null;
-        Page<Post> page = postRepository.findPostsPreview(predicate, pageable);
+        Page<Post> page = postRepository.findAll(predicate, pageable);
         List<Post> posts = page.getContent();
+    }
+    @Test
+    public void updatePost() throws Exception {
+        final String title = "English Resource Center in Myrgorod";
+        Post post = null;
+        Optional<Post> optionalPost = postRepository.findById(29);
+        if(optionalPost.isPresent()) {
+            post = optionalPost.get();
+            post.setTitle(title);
+            postRepository.save(post);
+        }
+        optionalPost = postRepository.findById(29);
+
+        assertEquals(optionalPost.get().getTitle(), "English Resource Center in Myrgorod");
+
     }
 }
