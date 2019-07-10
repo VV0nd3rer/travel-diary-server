@@ -5,18 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="posts")
@@ -49,9 +40,9 @@ public class Post {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User author;
-	/*@OneToMany(fetch=FetchType.LAZY, orphanRemoval=true)
+	@OneToMany(fetch=FetchType.LAZY, orphanRemoval=true)
 	@JoinColumn(name="post_id")
-	private Set<Comment> postComments;*/
+	private Set<Comment> comments;
 
 	public Post() {};
 	public Post(int postId, String title, String text) {
@@ -159,12 +150,7 @@ public class Post {
 	public void setCountriesSight(CountriesSight countriesSight) {
 		this.countriesSight = countriesSight;
 	}
-	/*public Set<Comment> getPostComments() {
-		return postComments;
-	}
-	public void setPostComments(Set<Comment> postComments) {
-		this.postComments = postComments;
-	}*/
+
 	
 	public User getAuthor() {
 		return author;
@@ -172,6 +158,15 @@ public class Post {
 	public void setAuthor(User author) {
 		this.author = author;
 	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
 	@Override
 	public String toString(){
 		return "id="+ postId +", title="+title+", text="+text;
