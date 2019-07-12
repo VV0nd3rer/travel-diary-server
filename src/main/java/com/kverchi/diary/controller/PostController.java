@@ -1,7 +1,9 @@
 package com.kverchi.diary.controller;
 
-import com.kverchi.diary.hateoas.assembler.PostResourceAssembler;
-import com.kverchi.diary.hateoas.resource.PostResource;
+import com.kverchi.diary.hateoas.assembler.PostsListResourceAssembler;
+import com.kverchi.diary.hateoas.assembler.SinglePostResourceAssembler;
+import com.kverchi.diary.hateoas.resource.PostsListResource;
+import com.kverchi.diary.hateoas.resource.SinglePostResource;
 import com.kverchi.diary.model.PaginationResponse;
 import com.kverchi.diary.model.entity.Post;
 import com.kverchi.diary.service.post.PostService;
@@ -45,17 +47,17 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Resources<PostResource>> getAllPosts() {
+    public ResponseEntity<Resources<PostsListResource>> getAllPosts() {
         List<Post> postList = postService.getAllPosts();
         if (!postList.isEmpty()) {
-            List<PostResource> postResources = new PostResourceAssembler().toResources(postList);
-            Resources<PostResource> allResources = new Resources<PostResource>(postResources);
+            List<PostsListResource> postResources = new PostsListResourceAssembler().toResources(postList);
+            Resources<PostsListResource> allResources = new Resources<PostsListResource>(postResources);
             allResources.add(
                     ControllerLinkBuilder.linkTo(
                             ControllerLinkBuilder.methodOn(PostController.class).getAllPosts())
                             .withRel("all")
             );
-            return new ResponseEntity<Resources<PostResource>>(allResources, HttpStatus.OK);
+            return new ResponseEntity<Resources<PostsListResource>>(allResources, HttpStatus.OK);
         }
         return new ResponseEntity(null, HttpStatus.NOT_FOUND);
     }
@@ -71,8 +73,8 @@ public class PostController {
         if(!postList.isEmpty()) {
             PaginationResponse paginationResponse = new PaginationResponse(page, size,
                     postList.getTotalPages(), postList.getTotalElements());
-            List<PostResource> postResources = new PostResourceAssembler().toResources(postList);
-            Resources<PostResource> allResources = new Resources<PostResource>(postResources);
+            List<PostsListResource> postResources = new PostsListResourceAssembler().toResources(postList);
+            Resources<PostsListResource> allResources = new Resources<PostsListResource>(postResources);
             allResources.add(
                     ControllerLinkBuilder.linkTo(
                             ControllerLinkBuilder.methodOn(PostController.class)
@@ -87,12 +89,12 @@ public class PostController {
         return new ResponseEntity(null, HttpStatus.NOT_FOUND);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<PostResource> getPostById(@PathVariable("id") int id) {
+    public ResponseEntity<SinglePostResource> getPostById(@PathVariable("id") int id) {
         Optional<Post> postOptional = postService.getPostById(id);
         if(postOptional.isPresent()) {
-            PostResource postResource = new PostResourceAssembler().toResource(postOptional.get());
+            SinglePostResource postResource = new SinglePostResourceAssembler().toResource(postOptional.get());
 
-            return new ResponseEntity<PostResource>(postResource, HttpStatus.OK);
+            return new ResponseEntity<SinglePostResource>(postResource, HttpStatus.OK);
         }
         return new ResponseEntity(null, HttpStatus.NOT_FOUND);
     }
