@@ -38,7 +38,7 @@ public class EmailServiceImplTest {
     @Autowired
     EmailService emailService;
 
-    @Ignore
+    //@Ignore
     @Test
     public void sentEmailTest() throws Exception {
         Map<String, Object> textVariables = new HashMap<>();
@@ -50,7 +50,7 @@ public class EmailServiceImplTest {
         textVariables.put("confirmEmailLink", confirmLink);
         Email registrationEmail =
                 new Email(EmailTemplate.REGISTRATION_EMAIL,
-                        Arrays.asList("someone@gmail.com"),
+                        Arrays.asList("kverchi24@gmail.com"),
                         textVariables);
 
         emailService.sendEmail(registrationEmail);

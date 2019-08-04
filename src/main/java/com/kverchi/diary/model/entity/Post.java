@@ -36,7 +36,7 @@ public class Post {
 	private String text;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="sight_id")
-	private CountriesSight countriesSight;
+	private Sight countriesSight;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User author;
@@ -51,7 +51,7 @@ public class Post {
 		this.text = text;
 	}
 	public Post(int postId, String title, String text, String previewImageUrl,
-				CountriesSight countriesSight, User author, ZonedDateTime createdAt) {
+				Sight countriesSight, User author, ZonedDateTime createdAt) {
 		this.postId = postId;
 		this.title = title;
 		this.text = text;
@@ -143,11 +143,11 @@ public class Post {
 	public void setText(String text) {
 		this.text = text;
 	}
-	public CountriesSight getCountriesSight() {
+	public Sight getCountriesSight() {
 		return countriesSight;
 	}
 
-	public void setCountriesSight(CountriesSight countriesSight) {
+	public void setCountriesSight(Sight countriesSight) {
 		this.countriesSight = countriesSight;
 	}
 

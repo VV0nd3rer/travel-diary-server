@@ -1,7 +1,7 @@
 package com.kverchi.diary.hateoas.resource;
 
 import com.kverchi.diary.model.entity.Comment;
-import com.kverchi.diary.model.entity.CountriesSight;
+import com.kverchi.diary.model.entity.Sight;
 import com.kverchi.diary.model.entity.Post;
 import com.kverchi.diary.model.entity.User;
 import org.springframework.hateoas.ResourceSupport;
@@ -18,7 +18,7 @@ public class SinglePostResource extends ResourceSupport {
     private final String text;
     private final ZonedDateTime updatedAt;
     private final User author;
-    private final CountriesSight sight;
+    private final Sight sight;
     private final Set<Comment> comments;
 
     public SinglePostResource(Post post) {
@@ -51,7 +51,7 @@ public class SinglePostResource extends ResourceSupport {
         return author;
     }
 
-    public CountriesSight getSight() {
+    public Sight getSight() {
         return sight;
     }
 

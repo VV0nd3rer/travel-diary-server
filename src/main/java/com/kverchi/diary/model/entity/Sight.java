@@ -14,9 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="countries_sights")
+@Table(name="sights")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class CountriesSight implements Serializable {
+public class Sight implements Serializable {
 	@Id
 	@Column(name="sight_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -35,16 +35,16 @@ public class CountriesSight implements Serializable {
 	private String imgUrl;
 	@Column(name="description")
 	private String description;
-	@Column(name="map_coord_x")
+	@Column(name="map_coord_lat")
 	private float mapCoordX;
-	@Column(name="map_coord_y")
+	@Column(name="map_coord_long")
 	private float mapCoordY;
 	
 	/*@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name="sight_id")
 	Set<Post> sight_posts;*/
-	public CountriesSight(){};
-	public CountriesSight(int sight_id) {
+	public Sight(){};
+	public Sight(int sight_id) {
 		this.sightId = sight_id;
 	}
 	public int getSightId() {

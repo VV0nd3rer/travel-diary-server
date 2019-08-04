@@ -16,7 +16,7 @@ public class SightVisit {
     private int visitId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="sight_id")
-    private CountriesSight countriesSight;
+    private Sight countriesSight;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User userId;
@@ -31,11 +31,11 @@ public class SightVisit {
         this.visitId = visitId;
     }
 
-    public CountriesSight getCountriesSight() {
+    public Sight getCountriesSight() {
         return countriesSight;
     }
 
-    public void setCountriesSight(CountriesSight countriesSight) {
+    public void setCountriesSight(Sight countriesSight) {
         this.countriesSight = countriesSight;
     }
 

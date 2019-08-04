@@ -1,8 +1,8 @@
 package com.kverchi.diary.service.sight.impl;
 
-import com.kverchi.diary.model.entity.CountriesSight;
+import com.kverchi.diary.model.entity.Sight;
 import com.kverchi.diary.repository.CountriesSightRepository;
-import com.kverchi.diary.service.sight.CountriesSightService;
+import com.kverchi.diary.service.sight.SightService;
 import com.kverchi.diary.service.country.CountryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,36 +16,36 @@ import java.util.List;
  * Created by Kverchi on 3.7.2018.
  */
 @Service
-public class CountriesSightServiceImpl implements CountriesSightService {
-    private static final Logger logger = LoggerFactory.getLogger(CountriesSightServiceImpl.class);
+public class SightServiceImpl implements SightService {
+    private static final Logger logger = LoggerFactory.getLogger(SightServiceImpl.class);
     @Autowired
     CountriesSightRepository countriesSightRepository;
     @Autowired
     CountryService countryService;
 
     @Override
-    public List<CountriesSight> findAll() {
+    public List<Sight> findAll() {
         return countriesSightRepository.findAll();
     }
 
     @Override
-    public List<CountriesSight> findByCountryCode(String countryCode) {
+    public List<Sight> findByCountryCode(String countryCode) {
         return countriesSightRepository.findByCountryCountryCode(countryCode);
     }
 
     @Override
-    public CountriesSight findBySightId(int sightId) {
+    public Sight findBySightId(int sightId) {
         return countriesSightRepository.getOne(sightId);
     }
 
     @Override
-    public CountriesSight updateSight(CountriesSight countriesSight) {
+    public Sight updateSight(Sight countriesSight) {
         return countriesSightRepository.save(countriesSight);
     }
 
     @Override
-    public CountriesSight addSight(CountriesSight countriesSight) {
-        CountriesSight addedSight = null;
+    public Sight addSight(Sight countriesSight) {
+        Sight addedSight = null;
         Country country = countriesSight.getCountry();
         if(country == null) {
             //TODO handle situation when Map API can't find country code for new sight
@@ -62,12 +62,12 @@ public class CountriesSightServiceImpl implements CountriesSightService {
 
     @Override
     public void delete(int sightId) {
-        CountriesSight sightToDelete = countriesSightRepository.getOne(sightId);
+        Sight sightToDelete = countriesSightRepository.getOne(sightId);
         countriesSightRepository.delete(sightToDelete);
     }
 
     @Override
-    public CountriesSight findByMapCoordXAndMapCoordY(float mapCoordX, float mapCoordY) {
+    public Sight findByMapCoordXAndMapCoordY(float mapCoordX, float mapCoordY) {
         return countriesSightRepository.findByMapCoordXAndMapCoordY(mapCoordX, mapCoordY);
     }
 }
