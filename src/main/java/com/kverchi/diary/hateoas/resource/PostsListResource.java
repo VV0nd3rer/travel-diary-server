@@ -5,6 +5,7 @@ import com.kverchi.diary.model.entity.Sight;
 import com.kverchi.diary.model.entity.Post;
 import com.kverchi.diary.model.entity.User;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
 
 import java.time.ZonedDateTime;
 import java.util.Set;
@@ -12,6 +13,7 @@ import java.util.Set;
 /**
  * Created by Liudmyla Melnychuk on 4.6.2019.
  */
+@Relation(value="post", collectionRelation="posts")
 public class PostsListResource extends ResourceSupport {
     private final int postId;
     private final String title;
