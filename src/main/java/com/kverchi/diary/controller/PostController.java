@@ -45,7 +45,6 @@ public class PostController {
     public ResponseEntity<PagedResources<PostsListResource>> getAllPosts() {
         Page<Post> postList = postService.getAllPosts();
         if (!postList.isEmpty()) {
-
             List<PostsListResource> postResources = new PostsListResourceAssembler().toResources(postList);
             PagedResources.PageMetadata pageMetadata =
                     new PagedResources.PageMetadata(

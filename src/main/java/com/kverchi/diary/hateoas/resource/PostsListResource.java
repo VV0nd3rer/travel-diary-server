@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * Created by Liudmyla Melnychuk on 4.6.2019.
  */
-@Relation(value="post", collectionRelation="posts")
+@Relation(value = "post", collectionRelation = "posts")
 public class PostsListResource extends ResourceSupport {
     private final int postId;
     private final String title;
