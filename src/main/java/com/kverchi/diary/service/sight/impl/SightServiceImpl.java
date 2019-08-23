@@ -7,6 +7,8 @@ import com.kverchi.diary.service.country.CountryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.kverchi.diary.model.entity.Country;
 
@@ -24,8 +26,10 @@ public class SightServiceImpl implements SightService {
     CountryService countryService;
 
     @Override
-    public List<Sight> findAll() {
-        return countriesSightRepository.findAll();
+    public Page<Sight> findAll() {
+        Pageable pageable = Pageable.unpaged();
+        Page<Sight> page = countriesSightRepository.findAll(pageable);
+        return page;
     }
 
     @Override

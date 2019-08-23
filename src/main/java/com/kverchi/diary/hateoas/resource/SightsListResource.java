@@ -2,10 +2,12 @@ package com.kverchi.diary.hateoas.resource;
 
 import com.kverchi.diary.model.entity.Sight;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
 
 /**
  * Created by Liudmyla Melnychuk on 2.8.2019.
  */
+@Relation(value = "sight", collectionRelation = "sights")
 public class SightsListResource extends ResourceSupport {
     private final int sightId;
     private final String label;
