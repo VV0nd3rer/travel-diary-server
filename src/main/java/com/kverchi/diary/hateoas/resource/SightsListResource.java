@@ -11,12 +11,14 @@ import org.springframework.hateoas.core.Relation;
 public class SightsListResource extends ResourceSupport {
     private final int sightId;
     private final String label;
+    private final String description;
     private final float mapCoordLat;
     private final float mapCoordLong;
 
     public SightsListResource(Sight sight) {
         this.sightId = sight.getSightId();
         this.label = sight.getLabel();
+        this.description = sight.getDescription();
         this.mapCoordLat = sight.getMapCoordX();
         this.mapCoordLong = sight.getMapCoordY();
     }
@@ -27,6 +29,10 @@ public class SightsListResource extends ResourceSupport {
 
     public String getLabel() {
         return label;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public float getMapCoordLat() {

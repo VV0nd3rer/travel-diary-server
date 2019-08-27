@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface SightService {
     Page<Sight> findAll();
+    Page<Sight> getSighs(int currentPage, int pageSize);
     List<Sight> findByCountryCode(String countryCode);
     Sight findBySightId(int sightId);
     Sight updateSight(Sight countriesSight);
