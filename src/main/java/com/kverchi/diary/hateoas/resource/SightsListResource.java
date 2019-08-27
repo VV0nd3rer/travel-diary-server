@@ -19,8 +19,8 @@ public class SightsListResource extends ResourceSupport {
         this.sightId = sight.getSightId();
         this.label = sight.getLabel();
         this.description = sight.getDescription();
-        this.mapCoordLat = sight.getMapCoordX();
-        this.mapCoordLong = sight.getMapCoordY();
+        this.mapCoordLat = sight.getLatitude();
+        this.mapCoordLong = sight.getLongitude();
     }
 
     public int getSightId() {

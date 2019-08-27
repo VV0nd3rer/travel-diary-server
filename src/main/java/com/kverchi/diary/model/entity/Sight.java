@@ -21,28 +21,20 @@ public class Sight implements Serializable {
 	@Column(name="sight_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int sightId;
-	@Column(name="sight_label")
+	@Column(name="label")
 	private String label;
 	
 	@ManyToOne
     @JoinColumn(name="country_code")
 	private Country country;
-	
-	/*@Column(name="country_code")
-	private String country_code;*/
-	
 	@Column(name="img_url")
 	private String imgUrl;
 	@Column(name="description")
 	private String description;
-	@Column(name="map_coord_lat")
-	private float mapCoordX;
-	@Column(name="map_coord_long")
-	private float mapCoordY;
-	
-	/*@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="sight_id")
-	Set<Post> sight_posts;*/
+	@Column(name="latitude")
+	private float latitude;
+	@Column(name="longitude")
+	private float longitude;
 	public Sight(){};
 	public Sight(int sight_id) {
 		this.sightId = sight_id;
@@ -80,17 +72,17 @@ public class Sight implements Serializable {
 		this.description = description;
 	}
 
-	public float getMapCoordX() {
-		return mapCoordX;
+	public float getLatitude() {
+		return latitude;
 	}
-	public void setMapCoordX(float mapCoordX) {
-		this.mapCoordX = mapCoordX;
+	public void setLatitude(float latitude) {
+		this.latitude = latitude;
 	}
-	public float getMapCoordY() {
-		return mapCoordY;
+	public float getLongitude() {
+		return longitude;
 	}
-	public void setMapCoordY(float mapCoordY) {
-		this.mapCoordY = mapCoordY;
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
 	}
    
 }

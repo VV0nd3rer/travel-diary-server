@@ -1,16 +1,17 @@
 package com.kverchi.diary.controller;
 
 import com.kverchi.diary.hateoas.assembler.SightsListResourceAssembler;
-import com.kverchi.diary.hateoas.resource.PostsListResource;
 import com.kverchi.diary.hateoas.resource.SightsListResource;
+import com.kverchi.diary.model.entity.Post;
 import com.kverchi.diary.model.entity.Sight;
 import com.kverchi.diary.service.sight.SightService;
+import com.querydsl.core.types.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class SightController {
 
     @GetMapping("/all")
     public ResponseEntity<PagedResources<SightsListResource>> getAllSights() {
-        Page<Sight> sightList = sightService.findAll();
+        Page<Sight> sightList = sightService.getAllSights();
         if(!sightList.isEmpty()) {
             List<SightsListResource> sightResources = new SightsListResourceAssembler().toResources(sightList);
             PagedResources.PageMetadata pageMetadata =
@@ -56,9 +57,11 @@ public class SightController {
     }
     @GetMapping
     public ResponseEntity<PagedResources<SightsListResource>> getSights(
+            @QuerydslPredicate(root = Post.class) Predicate predicate,
             @RequestParam(name="page", defaultValue = DEFAULT_CURRENT_PAGE_VALUE) int page,
-            @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE_VALUE) int size) {
-        Page<Sight> sightList = sightService.getSighs(page, size);
+            @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE_VALUE) int size,
+            @RequestParam(name = "sorting", defaultValue = DEFAULT_SORTING_VALUE) String sorting) {
+        Page<Sight> sightList = sightService.getSighs(predicate, page, size, sorting);
         if(!sightList.isEmpty()) {
             List<SightsListResource> sightResources = new SightsListResourceAssembler().toResources(sightList);
             PagedResources.PageMetadata pageMetadata = new PagedResources.PageMetadata(
@@ -69,7 +72,7 @@ public class SightController {
             pagedResources.add(
                     ControllerLinkBuilder.linkTo(
                             ControllerLinkBuilder.methodOn(SightController.class)
-                                    .getSights(page, size)).withSelfRel()
+                                    .getSights(predicate, page, size, sorting)).withSelfRel()
             );
             return new ResponseEntity<PagedResources<SightsListResource>>(pagedResources, HttpStatus.OK);
         }

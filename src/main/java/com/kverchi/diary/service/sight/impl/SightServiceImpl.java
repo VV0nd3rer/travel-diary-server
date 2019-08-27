@@ -1,9 +1,10 @@
 package com.kverchi.diary.service.sight.impl;
 
 import com.kverchi.diary.model.entity.Sight;
-import com.kverchi.diary.repository.CountriesSightRepository;
+import com.kverchi.diary.repository.SightRepository;
 import com.kverchi.diary.service.sight.SightService;
 import com.kverchi.diary.service.country.CountryService;
+import com.querydsl.core.types.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,43 +23,43 @@ import java.util.List;
 public class SightServiceImpl implements SightService {
     private static final Logger logger = LoggerFactory.getLogger(SightServiceImpl.class);
     @Autowired
-    CountriesSightRepository countriesSightRepository;
+    SightRepository sightRepository;
     @Autowired
     CountryService countryService;
 
     @Override
-    public Page<Sight> findAll() {
+    public Page<Sight> getAllSights() {
         Pageable pageable = Pageable.unpaged();
-        Page<Sight> page = countriesSightRepository.findAll(pageable);
+        Page<Sight> page = sightRepository.findAll(pageable);
         return page;
     }
 
     @Override
-    public Page<Sight> getSighs(int currentPage, int pageSize) {
+    public Page<Sight> getSighs(Predicate predicate, int currentPage, int pageSize, String sorting) {
         Pageable pageable = PageRequest.of(currentPage, pageSize);
-        Page<Sight> page = countriesSightRepository.findAll(pageable);
+        Page<Sight> page = sightRepository.findAll(pageable);
         return page;
     }
 
     @Override
-    public List<Sight> findByCountryCode(String countryCode) {
-        return countriesSightRepository.findByCountryCountryCode(countryCode);
+    public List<Sight> getByCountryCode(String countryCode) {
+        return sightRepository.findByCountryCountryCode(countryCode);
     }
 
     @Override
-    public Sight findBySightId(int sightId) {
-        return countriesSightRepository.getOne(sightId);
+    public Sight getSightById(int sightId) {
+        return sightRepository.getOne(sightId);
     }
 
     @Override
-    public Sight updateSight(Sight countriesSight) {
-        return countriesSightRepository.save(countriesSight);
+    public Sight updateSight(Sight sight) {
+        return sightRepository.save(sight);
     }
 
     @Override
-    public Sight addSight(Sight countriesSight) {
+    public Sight saveSight(Sight sight) {
         Sight addedSight = null;
-        Country country = countriesSight.getCountry();
+        Country country = sight.getCountry();
         if(country == null) {
             //TODO handle situation when Map API can't find country code for new sight
             return addedSight;
@@ -66,20 +67,20 @@ public class SightServiceImpl implements SightService {
         Country countryFromDb = countryService.getCountryByCode(country.getCountryCode());
         if(countryFromDb == null) {
             countryService.addCountry(country);
-            countriesSight.setCountry(country);
+            sight.setCountry(country);
         }
-        addedSight =  countriesSightRepository.save(countriesSight);
+        addedSight =  sightRepository.save(sight);
         return addedSight;
     }
 
     @Override
-    public void delete(int sightId) {
-        Sight sightToDelete = countriesSightRepository.getOne(sightId);
-        countriesSightRepository.delete(sightToDelete);
+    public void deleteById(int sightId) {
+        Sight sightToDelete = sightRepository.getOne(sightId);
+        sightRepository.delete(sightToDelete);
     }
 
     @Override
-    public Sight findByMapCoordXAndMapCoordY(float mapCoordX, float mapCoordY) {
-        return countriesSightRepository.findByMapCoordXAndMapCoordY(mapCoordX, mapCoordY);
+    public Sight findByLatitudeAndLongitude(float latitude, float longitude) {
+        return sightRepository.findByLatitudeAndLongitude(latitude, longitude);
     }
 }
