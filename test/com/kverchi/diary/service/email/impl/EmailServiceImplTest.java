@@ -1,4 +1,4 @@
-package com.kverchi.diary.service.impl;
+package com.kverchi.diary.service.email.impl;
 
 import com.icegreen.greenmail.junit.GreenMailRule;
 import com.icegreen.greenmail.util.GreenMailUtil;

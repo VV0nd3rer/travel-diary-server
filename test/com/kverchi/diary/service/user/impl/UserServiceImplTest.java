@@ -1,4 +1,4 @@
-package com.kverchi.diary.service.impl;
+package com.kverchi.diary.service.user.impl;
 
 import com.kverchi.diary.model.entity.User;
 import com.kverchi.diary.model.form.RegistrationForm;

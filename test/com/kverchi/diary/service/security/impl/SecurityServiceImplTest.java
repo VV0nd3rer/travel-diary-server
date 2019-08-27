@@ -1,4 +1,4 @@
-package com.kverchi.diary.service.impl;
+package com.kverchi.diary.service.security.impl;
 
 import com.kverchi.diary.service.security.SecurityService;
 import com.kverchi.diary.service.security.impl.SecurityServiceImpl;

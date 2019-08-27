@@ -1,6 +1,7 @@
-package com.kverchi.diary.repository;
+package com.kverchi.diary.repository.oauthclientcredentials;
 
 import com.kverchi.diary.model.entity.OauthClientCredentials;
+import com.kverchi.diary.repository.OauthClientCredentialsRepository;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

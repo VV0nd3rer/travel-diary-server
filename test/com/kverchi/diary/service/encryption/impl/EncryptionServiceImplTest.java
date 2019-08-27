@@ -1,7 +1,6 @@
-package com.kverchi.diary.service.impl;
+package com.kverchi.diary.service.encryption.impl;
 
 import com.kverchi.diary.service.security.EncryptionService;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
