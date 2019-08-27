@@ -123,18 +123,5 @@ public class PostController {
 
         }
     }
-    @GetMapping("/page/{currentPage}")
-    @ResponseBody
-    public List<Post> getPostsPage(@PathVariable("currentPage") int currentPage) {
-        Page<Post> paginatedPosts = postService.getAllPosts(currentPage);
-        List<Post> posts = paginatedPosts.getContent();
-        return posts;
-    }
-    @GetMapping("/{currentPage}/{pageSize}")
-    @ResponseBody
-    public Page<Post> getPage(@PathVariable("currentPage") int currentPage, @PathVariable("pageSize") int pageSize) {
-        Page<Post> page = postService.getAllPosts(currentPage, pageSize);
-        return page;
-    }
 
 }

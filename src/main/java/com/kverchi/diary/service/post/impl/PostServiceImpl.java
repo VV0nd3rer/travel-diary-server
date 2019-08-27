@@ -38,20 +38,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<Post> getAllPosts(int currentPage) {
-        Pageable pageable = PageRequest.of(currentPage, 5);
-        Page<Post> page = postRepository.findAll(pageable);
-        return page;
-    }
-
-    @Override
-    public Page<Post> getAllPosts(int currentPage, int pageSize) {
-        Pageable pageable = PageRequest.of(currentPage, pageSize);
-        Page<Post> page = postRepository.findAll(pageable);
-        return page;
-    }
-
-    @Override
     public Page<Post> getPosts(Predicate predicate, int page, int size, String sorting) {
         Sort sort = Sort.unsorted();
         PostSortingCriteria sortingType = PostSortingCriteria.valueOf(sorting.toUpperCase());

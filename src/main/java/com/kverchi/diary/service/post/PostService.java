@@ -11,8 +11,6 @@ import com.querydsl.core.types.Predicate;
 
 public interface PostService {
 	Page<Post> getAllPosts();
-	Page<Post> getAllPosts(int currentPage);
-	Page<Post> getAllPosts(int currentPage, int pageSize);
 	Page<Post> getPosts(Predicate predicate, int page, int size, String sorting);
 	Optional<Post> getPostById(int id);
 	Post savePost(Post post);
