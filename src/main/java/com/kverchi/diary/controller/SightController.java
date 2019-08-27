@@ -57,7 +57,8 @@ public class SightController {
     }
     @GetMapping
     public ResponseEntity<PagedResources<SightsListResource>> getSights(
-            @QuerydslPredicate(root = Post.class) Predicate predicate,
+            @QuerydslPredicate(root = Sight.class) Predicate predicate,
+            @RequestParam(name = "text", required = false) String text,
             @RequestParam(name="page", defaultValue = DEFAULT_CURRENT_PAGE_VALUE) int page,
             @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE_VALUE) int size,
             @RequestParam(name = "sorting", defaultValue = DEFAULT_SORTING_VALUE) String sorting) {
@@ -72,7 +73,7 @@ public class SightController {
             pagedResources.add(
                     ControllerLinkBuilder.linkTo(
                             ControllerLinkBuilder.methodOn(SightController.class)
-                                    .getSights(predicate, page, size, sorting)).withSelfRel()
+                                    .getSights(predicate, text, page, size, sorting)).withSelfRel()
             );
             return new ResponseEntity<PagedResources<SightsListResource>>(pagedResources, HttpStatus.OK);
         }
