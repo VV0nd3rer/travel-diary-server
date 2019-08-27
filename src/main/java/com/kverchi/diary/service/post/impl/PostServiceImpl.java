@@ -57,13 +57,6 @@ public class PostServiceImpl implements PostService {
         PostSortingCriteria sortingType = PostSortingCriteria.valueOf(sorting.toUpperCase());
 
         switch (sortingType) {
-            case VISITED:
-                logger.info("sorting by visited");
-                //TODO implement left join with Spring Data + Querydsl
-                break;
-            case WISHED:
-                logger.info("sorting by wished");
-                break;
             case NEWEST:
                 logger.info("sorting by newest");
                 sort = Sort.by(SORT_BY_DATE).descending();
