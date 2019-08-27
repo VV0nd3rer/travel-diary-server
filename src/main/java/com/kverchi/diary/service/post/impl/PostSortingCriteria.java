@@ -6,5 +6,5 @@ package com.kverchi.diary.service.post.impl;
 public enum PostSortingCriteria {
     UNSORTED,
     NEWEST,
-    OLDEST,
+    OLDEST
 }

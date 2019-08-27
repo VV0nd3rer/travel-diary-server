@@ -14,5 +14,6 @@ import java.util.List;
 public interface SightRepository extends JpaRepository <Sight, Integer>,
         QuerydslPredicateExecutor<Sight> {
     List<Sight> findByCountryCountryCode(String countryCode);
-    Sight findByLatitudeAndLongitude(float mapCoordLat, float mapCoordLong);
+    Sight findByLatitudeAndLongitude(float latitude, float longitude);
+
 }

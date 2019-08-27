@@ -4,14 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="sights")
@@ -23,7 +16,6 @@ public class Sight implements Serializable {
 	private int sightId;
 	@Column(name="label")
 	private String label;
-	
 	@ManyToOne
     @JoinColumn(name="country_code")
 	private Country country;
@@ -84,5 +76,4 @@ public class Sight implements Serializable {
 	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
-   
 }

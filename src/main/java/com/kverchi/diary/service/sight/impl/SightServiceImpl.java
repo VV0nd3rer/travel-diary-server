@@ -2,6 +2,7 @@ package com.kverchi.diary.service.sight.impl;
 
 import com.kverchi.diary.model.entity.Sight;
 import com.kverchi.diary.repository.SightRepository;
+import com.kverchi.diary.repository.SightVisitRepository;
 import com.kverchi.diary.service.sight.SightService;
 import com.kverchi.diary.service.country.CountryService;
 import com.querydsl.core.types.Predicate;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.kverchi.diary.model.entity.Country;
 
@@ -22,8 +24,11 @@ import java.util.List;
 @Service
 public class SightServiceImpl implements SightService {
     private static final Logger logger = LoggerFactory.getLogger(SightServiceImpl.class);
+
     @Autowired
     SightRepository sightRepository;
+    @Autowired
+    SightVisitRepository sightVisitRepository;
     @Autowired
     CountryService countryService;
 
@@ -36,8 +41,16 @@ public class SightServiceImpl implements SightService {
 
     @Override
     public Page<Sight> getSighs(Predicate predicate, int currentPage, int pageSize, String sorting) {
-        Pageable pageable = PageRequest.of(currentPage, pageSize);
-        Page<Sight> page = sightRepository.findAll(pageable);
+        Sort sort = Sort.unsorted();
+        SightSortingCriteria sortingType = SightSortingCriteria.valueOf(sorting.toUpperCase());
+        switch (sortingType) {
+            case MOST_VISITED:
+                break;
+            case MOST_WISHED:
+                break;
+        }
+        Pageable pageable = PageRequest.of(currentPage, pageSize, sort);
+        Page<Sight> page = sightRepository.findAll(predicate, pageable);
         return page;
     }
 
