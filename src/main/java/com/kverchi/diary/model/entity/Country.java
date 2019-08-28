@@ -23,11 +23,6 @@ public class Country {
 	private String name;
 	@Column(name="img_path")
 	private String imgPath;
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name="country_code")
-	@JsonIgnore
-	private Set<Sight> countriesSight;
-	
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -46,13 +41,4 @@ public class Country {
 	public void setImgPath(String imgPath) {
 		this.imgPath = imgPath;
 	}
-	
-	public Set<Sight> getCountriesSight() {
-		return countriesSight;
-	}
-	public void setCountriesSight(Set<Sight> countriesSight) {
-		this.countriesSight = countriesSight;
-	}
-	
-
 }

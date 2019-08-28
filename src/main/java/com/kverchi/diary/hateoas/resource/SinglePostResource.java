@@ -19,7 +19,6 @@ public class SinglePostResource extends ResourceSupport {
     private final ZonedDateTime updatedAt;
     private final User author;
     private final Sight sight;
-    private final Set<Comment> comments;
 
     public SinglePostResource(Post post) {
         this.postId = post.getPostId();
@@ -27,8 +26,7 @@ public class SinglePostResource extends ResourceSupport {
         this.text = post.getText();
         this.updatedAt = post.getUpdatedAt();
         this.author = post.getAuthor();
-        this.sight = post.getCountriesSight();
-        this.comments = post.getComments();
+        this.sight = post.getSight();
     }
 
     public int getPostId() {
@@ -55,7 +53,4 @@ public class SinglePostResource extends ResourceSupport {
         return sight;
     }
 
-    public Set<Comment> getComments() {
-        return comments;
-    }
 }

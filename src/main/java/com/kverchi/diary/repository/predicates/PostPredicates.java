@@ -12,14 +12,6 @@ import java.util.Map;
 public class PostPredicates {
     private static QPost post = QPost.post;
 
-    public static Predicate searchByAuthorId(int userId) {
-        return post.author.userId.eq(userId);
-    }
-
-    public static Predicate searchBySightId(int sightId) {
-        return post.countriesSight.sightId.eq(sightId);
-    }
-
     public static Predicate searchInPosts(String text) {
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(post.text.containsIgnoreCase(text)

@@ -22,7 +22,6 @@ public class PostsListResource extends ResourceSupport {
     private final ZonedDateTime updatedAt;
     private final User author;
     private final Sight sight;
-    private final Set<Comment> comments;
 
     public PostsListResource(Post post) {
         this.postId = post.getPostId();
@@ -31,8 +30,7 @@ public class PostsListResource extends ResourceSupport {
         this.previewImageUrl = post.getPreviewImageUrl();
         this.updatedAt = post.getUpdatedAt();
         this.author = post.getAuthor();
-        this.sight = post.getCountriesSight();
-        this.comments = post.getComments();
+        this.sight = post.getSight();
     }
     public int getPostId() {
         return postId;
@@ -60,8 +58,5 @@ public class PostsListResource extends ResourceSupport {
         return sight;
     }
 
-    public Set<Comment> getComments() {
-        return comments;
-    }
 
 }
