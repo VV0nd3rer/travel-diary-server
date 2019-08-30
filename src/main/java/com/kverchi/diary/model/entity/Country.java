@@ -23,6 +23,14 @@ public class Country {
 	private String name;
 	@Column(name="img_path")
 	private String imgPath;
+
+	public Country() {
+	}
+
+	public Country(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
 	public String getCountryCode() {
 		return countryCode;
 	}

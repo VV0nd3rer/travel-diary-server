@@ -12,7 +12,6 @@ import java.util.List;
 public interface SightService {
     Page<Sight> getAllSights();
     Page<Sight> getSighs(Predicate predicate, int currentPage, int pageSize, String sorting);
-    List<Sight> getByCountryCode(String countryCode);
     Sight getSightById(int sightId);
     Sight updateSight(Sight sight);
     Sight saveSight(Sight sight);

@@ -55,11 +55,6 @@ public class SightServiceImpl implements SightService {
     }
 
     @Override
-    public List<Sight> getByCountryCode(String countryCode) {
-        return sightRepository.findByCountryCountryCode(countryCode);
-    }
-
-    @Override
     public Sight getSightById(int sightId) {
         return sightRepository.getOne(sightId);
     }
