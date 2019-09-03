@@ -101,6 +101,12 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate5</artifactId>
+            <version>2.9.9</version>
+        </dependency>
+
         <!-- end of data, JPA and querydsl -->
 
 
