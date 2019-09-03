@@ -1,6 +1,7 @@
 package com.kverchi.diary.hateoas.resource;
 
 import com.kverchi.diary.model.entity.Sight;
+import com.kverchi.diary.model.entity.SightVisitsCounter;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
@@ -14,6 +15,7 @@ public class SightsListResource extends ResourceSupport {
     private final String description;
     private final float mapCoordLat;
     private final float mapCoordLong;
+    private final SightVisitsCounter sightVisitsCounter;
 
     public SightsListResource(Sight sight) {
         this.sightId = sight.getSightId();
@@ -21,6 +23,7 @@ public class SightsListResource extends ResourceSupport {
         this.description = sight.getDescription();
         this.mapCoordLat = sight.getLatitude();
         this.mapCoordLong = sight.getLongitude();
+        this.sightVisitsCounter = sight.getSightVisitsCounter();
     }
 
     public int getSightId() {
@@ -41,5 +44,9 @@ public class SightsListResource extends ResourceSupport {
 
     public float getMapCoordLong() {
         return mapCoordLong;
+    }
+
+    public SightVisitsCounter getSightVisitsCounter() {
+        return sightVisitsCounter;
     }
 }

@@ -1,6 +1,7 @@
 package com.kverchi.diary.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 
@@ -27,10 +28,15 @@ public class Sight implements Serializable {
 	private float latitude;
 	@Column(name="longitude")
 	private float longitude;
+	@JsonManagedReference
+	@OneToOne(mappedBy = "sight", cascade=CascadeType.ALL)
+	private SightVisitsCounter sightVisitsCounter;
+
 	public Sight(){};
 	public Sight(int sight_id) {
 		this.sightId = sight_id;
 	}
+
 	public int getSightId() {
 		return sightId;
 	}
@@ -75,5 +81,13 @@ public class Sight implements Serializable {
 	}
 	public void setLongitude(float longitude) {
 		this.longitude = longitude;
+	}
+
+	public SightVisitsCounter getSightVisitsCounter() {
+		return sightVisitsCounter;
+	}
+
+	public void setSightVisitsCounter(SightVisitsCounter sightVisitsCounter) {
+		this.sightVisitsCounter = sightVisitsCounter;
 	}
 }

@@ -15,9 +15,6 @@ public class SightVisit {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int visitId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="sight_id")
-    private Sight sight;
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
     @Column(name="visited_at")
@@ -29,14 +26,6 @@ public class SightVisit {
 
     public void setVisitId(int visitId) {
         this.visitId = visitId;
-    }
-
-    public Sight getSight() {
-        return sight;
-    }
-
-    public void setSight(Sight sight) {
-        this.sight = sight;
     }
 
     public User getUser() {

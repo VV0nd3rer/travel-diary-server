@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.kverchi.diary.model.entity.Country;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,8 +23,11 @@ import java.util.List;
  * Created by Kverchi on 3.7.2018.
  */
 @Service
+@Transactional
 public class SightServiceImpl implements SightService {
     private static final Logger logger = LoggerFactory.getLogger(SightServiceImpl.class);
+
+    public static final String SORT_BY_VISITS = "sightVisitsCounter.counter";
 
     @Autowired
     SightRepository sightRepository;
@@ -45,6 +49,7 @@ public class SightServiceImpl implements SightService {
         SightSortingCriteria sortingType = SightSortingCriteria.valueOf(sorting.toUpperCase());
         switch (sortingType) {
             case MOST_VISITED:
+                sort = Sort.by(SORT_BY_VISITS).descending();
                 break;
             case MOST_WISHED:
                 break;
