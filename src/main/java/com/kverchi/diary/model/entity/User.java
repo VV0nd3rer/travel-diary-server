@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name="users")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements Serializable, UserDetails {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

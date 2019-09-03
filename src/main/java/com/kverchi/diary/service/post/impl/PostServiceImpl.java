@@ -17,10 +17,12 @@ import com.kverchi.diary.service.post.PostService;
 
 import com.querydsl.core.types.Predicate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.kverchi.diary.repository.predicates.PostPredicates.*;
 
 @Service
+@Transactional
 public class PostServiceImpl implements PostService {
     private static final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 

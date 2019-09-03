@@ -1,5 +1,6 @@
 package com.kverchi.diary.model.entity;
 
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,9 +9,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 import javax.persistence.*;
-
 @Entity
 @Table(name="posts")
+@NamedEntityGraph(name = "post-entity-graph", attributeNodes = {
+		@NamedAttributeNode("author"),
+		@NamedAttributeNode("sight")
+})
+
 public class Post {
 	private static final Logger logger = LoggerFactory.getLogger(Post.class);
 	private static final int TEXT_WITH_IMG_OFFSET = 200;
