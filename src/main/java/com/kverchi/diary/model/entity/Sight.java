@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="sights")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Sight implements Serializable {
 	@Id
 	@Column(name="sight_id")
