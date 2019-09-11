@@ -40,7 +40,7 @@ public class SightController {
     @GetMapping("/all")
     public ResponseEntity<PagedResources<SightsListResource>> getAllSights() {
         Page<Sight> sightList = sightService.getAllSights();
-        if(!sightList.isEmpty()) {
+        if (!sightList.isEmpty()) {
             List<SightsListResource> sightResources = new SightsListResourceAssembler().toResources(sightList);
             PagedResources.PageMetadata pageMetadata =
                     new PagedResources.PageMetadata(
@@ -55,29 +55,33 @@ public class SightController {
         }
         return new ResponseEntity(null, HttpStatus.NOT_FOUND);
     }
+
     @GetMapping
     public ResponseEntity<PagedResources<SightsListResource>> getSights(
             @QuerydslPredicate(root = Sight.class) Predicate predicate,
             @RequestParam(name = "text", required = false) String text,
-            @RequestParam(name="page", defaultValue = DEFAULT_CURRENT_PAGE_VALUE) int page,
+            @RequestParam(name = "page", defaultValue = DEFAULT_CURRENT_PAGE_VALUE) int page,
             @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE_VALUE) int size,
             @RequestParam(name = "sorting", defaultValue = DEFAULT_SORTING_VALUE) String sorting) {
-        Page<Sight> sightList = sightService.getSighs(predicate, page, size, sorting);
-        if(!sightList.isEmpty()) {
-            List<SightsListResource> sightResources = new SightsListResourceAssembler().toResources(sightList);
-            PagedResources.PageMetadata pageMetadata = new PagedResources.PageMetadata(
-                    sightList.getSize(), sightList.getNumber(),
-                    sightList.getTotalElements(), sightList.getTotalPages());
-            PagedResources<SightsListResource> pagedResources =
-                    new PagedResources<SightsListResource>(sightResources, pageMetadata);
-            pagedResources.add(
-                    ControllerLinkBuilder.linkTo(
-                            ControllerLinkBuilder.methodOn(SightController.class)
-                                    .getSights(predicate, text, page, size, sorting)).withSelfRel()
-            );
-            return new ResponseEntity<PagedResources<SightsListResource>>(pagedResources, HttpStatus.OK);
+        Page<Sight> sightList;
+        if (text != null) {
+            sightList = sightService.getSighs(predicate, text, page, size, sorting);
+        } else {
+            sightList = sightService.getSighs(predicate, page, size, sorting);
         }
-        return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        List<SightsListResource> sightResources = new SightsListResourceAssembler().toResources(sightList);
+        PagedResources.PageMetadata pageMetadata = new PagedResources.PageMetadata(
+                sightList.getSize(), sightList.getNumber(),
+                sightList.getTotalElements(), sightList.getTotalPages());
+        PagedResources<SightsListResource> pagedResources =
+                new PagedResources<SightsListResource>(sightResources, pageMetadata);
+        pagedResources.add(
+                ControllerLinkBuilder.linkTo(
+                        ControllerLinkBuilder.methodOn(SightController.class)
+                                .getSights(predicate, text, page, size, sorting)).withSelfRel()
+        );
+        return new ResponseEntity<PagedResources<SightsListResource>>(pagedResources, HttpStatus.OK);
+
     }
 
 }

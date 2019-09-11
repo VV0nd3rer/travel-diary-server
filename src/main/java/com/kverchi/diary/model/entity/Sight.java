@@ -2,6 +2,8 @@ package com.kverchi.diary.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
@@ -83,6 +85,9 @@ public class Sight implements Serializable {
 	}
 
 	public SightVisitsCounter getSightVisitsCounter() {
+		if (this.sightVisitsCounter == null) {
+			this.sightVisitsCounter = new SightVisitsCounter(0);
+		}
 		return sightVisitsCounter;
 	}
 

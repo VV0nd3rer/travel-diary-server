@@ -13,16 +13,16 @@ public class SightsListResource extends ResourceSupport {
     private final int sightId;
     private final String label;
     private final String description;
-    private final float mapCoordLat;
-    private final float mapCoordLong;
+    private final float latitude;
+    private final float longitude;
     private final SightVisitsCounter sightVisitsCounter;
 
     public SightsListResource(Sight sight) {
         this.sightId = sight.getSightId();
         this.label = sight.getLabel();
         this.description = sight.getDescription();
-        this.mapCoordLat = sight.getLatitude();
-        this.mapCoordLong = sight.getLongitude();
+        this.latitude = sight.getLatitude();
+        this.longitude = sight.getLongitude();
         this.sightVisitsCounter = sight.getSightVisitsCounter();
     }
 
@@ -38,12 +38,12 @@ public class SightsListResource extends ResourceSupport {
         return description;
     }
 
-    public float getMapCoordLat() {
-        return mapCoordLat;
+    public float getLatitude() {
+        return latitude;
     }
 
-    public float getMapCoordLong() {
-        return mapCoordLong;
+    public float getLongitude() {
+        return longitude;
     }
 
     public SightVisitsCounter getSightVisitsCounter() {

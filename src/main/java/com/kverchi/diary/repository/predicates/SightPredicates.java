@@ -27,4 +27,9 @@ public class SightPredicates {
         builder.and(qSight.description.like(text));
         return builder;
     }
+    public static Predicate inLabel(String text) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(qSight.label.likeIgnoreCase("%" + text + "%"));
+        return builder;
+    }
 }

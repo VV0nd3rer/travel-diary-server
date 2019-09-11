@@ -6,5 +6,9 @@ package com.kverchi.diary.service.sight.impl;
 public enum SightSortingCriteria {
     UNSORTED,
     MOST_VISITED,
-    MOST_WISHED
+    LEAST_VISITED,
+    MOST_WISHED,
+    LEAST_WISHED,
+    BY_LABEL_ASC,
+    BY_LABEL_DESC
 }
