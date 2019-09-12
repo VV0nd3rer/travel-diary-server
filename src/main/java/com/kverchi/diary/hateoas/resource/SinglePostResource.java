@@ -15,7 +15,9 @@ import java.util.Set;
 public class SinglePostResource extends ResourceSupport {
     private final int postId;
     private final String title;
+    private final String description;
     private final String text;
+    private final ZonedDateTime createdAt;
     private final ZonedDateTime updatedAt;
     private final User author;
     private final Sight sight;
@@ -23,7 +25,9 @@ public class SinglePostResource extends ResourceSupport {
     public SinglePostResource(Post post) {
         this.postId = post.getPostId();
         this.title = post.getTitle();
+        this.description = post.getDescription();
         this.text = post.getText();
+        this.createdAt = post.getCreatedAt();
         this.updatedAt = post.getUpdatedAt();
         this.author = post.getAuthor();
         this.sight = post.getSight();
@@ -37,8 +41,16 @@ public class SinglePostResource extends ResourceSupport {
         return title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public String getText() {
         return text;
+    }
+
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public ZonedDateTime getUpdatedAt() {
