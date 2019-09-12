@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 /**
  * Created by Kverchi on 28.6.2018.
@@ -22,4 +24,7 @@ public interface PostRepository extends JpaRepository<Post, Integer>, QuerydslPr
     @Override
     @EntityGraph(value = "post-entity-graph")
     Page<Post> findAll(Predicate predicate, Pageable pageable);
+
+    @EntityGraph(value = "post-entity-graph")
+    Optional<Post> findById(int id);
 }
