@@ -4,6 +4,7 @@ package com.kverchi.diary.config;
 import com.google.common.collect.ImmutableList;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,9 +42,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/**", "/echo", "/posts/**", "/sights/**", "/books/**").permitAll()
+                .antMatchers("/user/login", "/user/register").permitAll()
+                .antMatchers("/echo", "/sights/**", "/books/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
                 .anyRequest().authenticated()
-
                 .and()
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
