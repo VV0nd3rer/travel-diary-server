@@ -4,7 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.kverchi.diary.model.entity.Post;
+import com.kverchi.diary.model.entity.User;
 import com.kverchi.diary.repository.PostRepository;
+import com.kverchi.diary.service.security.SecurityService;
+import com.kverchi.diary.service.user.UserService;
+import com.kverchi.diary.service.user.impl.MsgServiceResponse;
 import com.querydsl.core.BooleanBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import com.kverchi.diary.service.post.PostService;
 
 import com.querydsl.core.types.Predicate;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +33,9 @@ public class PostServiceImpl implements PostService {
 
 
     public static final String SORT_BY_DATE = "updatedAt";
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     PostRepository postRepository;
@@ -71,7 +79,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post updatePost(Post post) {
+    public Post updatePost(Post post) throws BadCredentialsException {
+        User user = userService.getUserFromSession();
+        if(user.getUserId() != post.getAuthor().getUserId()) {
+            throw new BadCredentialsException(MsgServiceResponse.FORBIDDEN_ACTION.toString());
+        }
         return postRepository.save(post);
     }
 

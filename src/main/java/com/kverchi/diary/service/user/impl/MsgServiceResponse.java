@@ -6,6 +6,7 @@ public enum MsgServiceResponse {
 	USER_USERNAME_ALREADY_EXIST("Username already exists."),
 	NEW_PASSWORD_IS_THE_SAME("New password is the same as old one"),
 	NEW_PASSWORD_MISMATCHED("Password mismatched"),
+	FORBIDDEN_ACTION("The action is forbidden for current user"),
 	TRANSACTION_PROBLEM("Transaction is failed."),
 	EMAIL_SENDING_PROBLEM("Sending email failed."),
 	UKNOWN_PROBLEM("Uknown problem"),

@@ -17,6 +17,7 @@ import org.springframework.hateoas.Resources;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,8 +111,14 @@ public class PostController {
         return postService.savePost(post);
     }
     @PutMapping
-    public Post updatePost(@RequestBody Post post) {
-        return postService.savePost(post);
+    public ResponseEntity<Post> updatePost(@RequestBody Post post) {
+        Post updatedPost;
+        try {
+            updatedPost = postService.updatePost(post);
+            return new ResponseEntity(updatedPost, HttpStatus.OK);
+        } catch (BadCredentialsException ex) {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
