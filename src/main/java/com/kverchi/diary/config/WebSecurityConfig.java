@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/login", "/user/register").permitAll()
+                .antMatchers("/user/all", "/user/login", "/user/register").permitAll()
                 .antMatchers("/echo", "/sights/**", "/books/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
                 .anyRequest().authenticated()

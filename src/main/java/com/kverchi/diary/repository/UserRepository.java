@@ -2,13 +2,14 @@ package com.kverchi.diary.repository;
 
 import com.kverchi.diary.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
  * Created by Kverchi on 20.7.2018.
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer>, QuerydslPredicateExecutor<User> {
     User findByUsername(String username);
     User findByEmail(String email);
 }

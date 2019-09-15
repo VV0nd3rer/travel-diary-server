@@ -2,15 +2,19 @@ package com.kverchi.diary.service.user.impl;
 
 import com.kverchi.diary.model.Email;
 import com.kverchi.diary.model.entity.User;
+import com.kverchi.diary.repository.predicates.UserPredicates;
 import com.kverchi.diary.service.email.impl.EmailTemplate;
 import com.kverchi.diary.model.form.RegistrationForm;
 import com.kverchi.diary.repository.UserRepository;
 import com.kverchi.diary.service.email.EmailMessagingProducerService;
 import com.kverchi.diary.service.security.SecurityService;
 import com.kverchi.diary.service.user.UserService;
+import com.querydsl.core.types.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -90,9 +94,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public Page<User> getAllUsers() {
+        Pageable pageable = Pageable.unpaged();
+        Page<User> page = userRepository.findAll(pageable);
+        return page;
     }
+
+    @Override
+    public Page<User> getAllUsers(String text) {
+        Pageable pageable = Pageable.unpaged();
+        Predicate searchInUsernamePredicate = UserPredicates.inUsername(text);
+        Page<User> page = userRepository.findAll(searchInUsernamePredicate, pageable);
+        return page;
+    }
+
+    @Override
+    public Page<User> getUsers(Predicate predicate, int currentPage, int pageSize, String sorting) {
+        return null;
+    }
+
 
     @Override
     public ServiceResponse register(RegistrationForm form) {
