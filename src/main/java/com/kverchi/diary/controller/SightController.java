@@ -38,22 +38,25 @@ public class SightController {
     SightService sightService;
 
     @GetMapping("/all")
-    public ResponseEntity<PagedResources<SightsListResource>> getAllSights() {
-        Page<Sight> sightList = sightService.getAllSights();
-        if (!sightList.isEmpty()) {
-            List<SightsListResource> sightResources = new SightsListResourceAssembler().toResources(sightList);
-            PagedResources.PageMetadata pageMetadata =
-                    new PagedResources.PageMetadata(
-                            sightList.getSize(), sightList.getNumber(),
-                            sightList.getTotalElements(), sightList.getTotalPages());
-            PagedResources<SightsListResource> pagedResources =
-                    new PagedResources<SightsListResource>(sightResources, pageMetadata);
-            pagedResources.add(ControllerLinkBuilder.linkTo(
-                    ControllerLinkBuilder.methodOn(SightController.class).getAllSights()
-            ).withSelfRel());
-            return new ResponseEntity<PagedResources<SightsListResource>>(pagedResources, HttpStatus.OK);
+    public ResponseEntity<PagedResources<SightsListResource>> getAllSights(
+            @RequestParam(name = "text", required = false) String text) {
+        Page<Sight> sightList;
+        if (text != null) {
+            sightList = sightService.getAllSights(text);
+        } else {
+            sightList = sightService.getAllSights();
         }
-        return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        List<SightsListResource> sightResources = new SightsListResourceAssembler().toResources(sightList);
+        PagedResources.PageMetadata pageMetadata =
+                new PagedResources.PageMetadata(
+                        sightList.getSize(), sightList.getNumber(),
+                        sightList.getTotalElements(), sightList.getTotalPages());
+        PagedResources<SightsListResource> pagedResources =
+                new PagedResources<SightsListResource>(sightResources, pageMetadata);
+        pagedResources.add(ControllerLinkBuilder.linkTo(
+                ControllerLinkBuilder.methodOn(SightController.class).getAllSights(text)
+        ).withSelfRel());
+        return new ResponseEntity<PagedResources<SightsListResource>>(pagedResources, HttpStatus.OK);
     }
 
     @GetMapping

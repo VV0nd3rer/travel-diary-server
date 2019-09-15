@@ -48,6 +48,14 @@ public class SightServiceImpl implements SightService {
     }
 
     @Override
+    public Page<Sight> getAllSights(String text) {
+        Pageable pageable = Pageable.unpaged();
+        Predicate searchInLabelPredicate = SightPredicates.inLabel(text);
+        Page<Sight> page = sightRepository.findAll(searchInLabelPredicate, pageable);
+        return page;
+    }
+
+    @Override
     public Page<Sight> getSighs(Predicate predicate, int currentPage, int pageSize, String sorting) {
         Sort sort = getSorting(sorting);
         Pageable pageable = PageRequest.of(currentPage, pageSize, sort);
