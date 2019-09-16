@@ -10,7 +10,7 @@ import com.querydsl.core.types.Predicate;
 public class UserPredicates {
     private static QUser qUser = QUser.user;
 
-    public static Predicate inUsername(String text) {
+    public static Predicate searchLikeUsername(String text) {
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(qUser.username.likeIgnoreCase("%" + text + "%"));
         return builder;

@@ -73,43 +73,43 @@ public class PostController {
 
         Page<Post> postList = postService.getPosts(predicate, page, size, sorting);
 
-        if(!postList.isEmpty()) {
 
-            List<PostsListResource> postResources = new PostsListResourceAssembler().toResources(postList);
-            PagedResources.PageMetadata pageMetadata =
-                    new PagedResources.PageMetadata(
-                            postList.getSize(), postList.getNumber(),
-                            postList.getTotalElements(), postList.getTotalPages());
-            PagedResources<PostsListResource> pagedResources =
-                    new PagedResources<PostsListResource>(postResources, pageMetadata);
+        List<PostsListResource> postResources = new PostsListResourceAssembler().toResources(postList);
+        PagedResources.PageMetadata pageMetadata =
+                new PagedResources.PageMetadata(
+                        postList.getSize(), postList.getNumber(),
+                        postList.getTotalElements(), postList.getTotalPages());
+        PagedResources<PostsListResource> pagedResources =
+                new PagedResources<PostsListResource>(postResources, pageMetadata);
 
-            pagedResources.add(
-                    ControllerLinkBuilder.linkTo(
-                            ControllerLinkBuilder.methodOn(PostController.class)
-                                    .getPosts(predicate,
-                                            page,
-                                            size,
-                                            sorting)).withSelfRel()
-            );
-            return new ResponseEntity<PagedResources<PostsListResource>>(pagedResources, HttpStatus.OK);
-        }
-        return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        pagedResources.add(
+                ControllerLinkBuilder.linkTo(
+                        ControllerLinkBuilder.methodOn(PostController.class)
+                                .getPosts(predicate,
+                                        page,
+                                        size,
+                                        sorting)).withSelfRel()
+        );
+        return new ResponseEntity<PagedResources<PostsListResource>>(pagedResources, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<SinglePostResource> getPostById(@PathVariable("id") int id) {
         Optional<Post> postOptional = postService.getPostById(id);
-        if(postOptional.isPresent()) {
+        if (postOptional.isPresent()) {
             SinglePostResource postResource = new SinglePostResourceAssembler().toResource(postOptional.get());
 
             return new ResponseEntity<SinglePostResource>(postResource, HttpStatus.OK);
         }
         return new ResponseEntity(null, HttpStatus.NOT_FOUND);
     }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Post addPost(@RequestBody Post post) {
         return postService.savePost(post);
     }
+
     @PutMapping
     public ResponseEntity<Post> updatePost(@RequestBody Post post) {
         Post updatedPost;

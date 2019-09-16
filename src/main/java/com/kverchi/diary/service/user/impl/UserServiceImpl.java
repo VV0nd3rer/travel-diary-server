@@ -9,12 +9,15 @@ import com.kverchi.diary.repository.UserRepository;
 import com.kverchi.diary.service.email.EmailMessagingProducerService;
 import com.kverchi.diary.service.security.SecurityService;
 import com.kverchi.diary.service.user.UserService;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -84,7 +87,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ServiceResponse logout() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null) {
+        if (authentication != null) {
             new SecurityContextLogoutHandler().logout(
                     httpServletRequest,
                     httpServletResponse,
@@ -101,35 +104,47 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getAllUsers(String text) {
+    public Page<User> getAllUsers(String searchLikeAttr) {
         Pageable pageable = Pageable.unpaged();
-        Predicate searchInUsernamePredicate = UserPredicates.inUsername(text);
-        Page<User> page = userRepository.findAll(searchInUsernamePredicate, pageable);
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(UserPredicates.searchLikeUsername(searchLikeAttr));
+        Page<User> page = userRepository.findAll(builder, pageable);
         return page;
     }
 
     @Override
     public Page<User> getUsers(Predicate predicate, int currentPage, int pageSize, String sorting) {
-        return null;
+        Pageable pageable = PageRequest.of(currentPage, pageSize);
+        Page<User> page = userRepository.findAll(predicate, pageable);
+        return page;
+    }
+
+    @Override
+    public Page<User> getUsers(Predicate predicate, String searchLikeAttr, int currentPage, int pageSize, String sorting) {
+        Pageable pageable = PageRequest.of(currentPage, pageSize);
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(UserPredicates.searchLikeUsername(searchLikeAttr)).and(predicate);
+        Page<User> page = userRepository.findAll(builder, pageable);
+        return page;
     }
 
 
     @Override
     public ServiceResponse register(RegistrationForm form) {
         ServiceResponse response = new ServiceResponse();
-        if(!form.getPassword().equals(form.getMatchingPassword())) {
+        if (!form.getPassword().equals(form.getMatchingPassword())) {
             response.setResponseMessage(MsgServiceResponse.NEW_PASSWORD_MISMATCHED);
             response.setResponseCode(HttpStatus.BAD_REQUEST);
             return response;
         }
 
         User user = form.toUser(bCryptPasswordEncoder);
-        if(userRepository.findByUsername(user.getUsername()) != null) {
+        if (userRepository.findByUsername(user.getUsername()) != null) {
             response.setResponseMessage(MsgServiceResponse.USER_USERNAME_ALREADY_EXIST);
             response.setResponseCode(HttpStatus.BAD_REQUEST);
             return response;
         }
-        if(userRepository.findByEmail(user.getEmail()) != null) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
             response.setResponseMessage(MsgServiceResponse.USER_EMAIL_ALREADY_EXIST);
             response.setResponseCode(HttpStatus.BAD_REQUEST);
             return response;
@@ -144,8 +159,8 @@ public class UserServiceImpl implements UserService {
         textVariables.put("confirmEmailLink", confirmLink);
         Email registrationEmail =
                 new Email(EmailTemplate.REGISTRATION_EMAIL,
-                          recipientsAddress,
-                          textVariables);
+                        recipientsAddress,
+                        textVariables);
         emailMessagingProducerService.sendEmail(registrationEmail);
 
         try {
@@ -159,7 +174,6 @@ public class UserServiceImpl implements UserService {
         }
         return response;
     }
-
 
 
     @Override

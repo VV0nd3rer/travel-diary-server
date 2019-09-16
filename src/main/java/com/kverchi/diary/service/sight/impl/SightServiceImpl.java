@@ -48,9 +48,9 @@ public class SightServiceImpl implements SightService {
     }
 
     @Override
-    public Page<Sight> getAllSights(String text) {
+    public Page<Sight> getAllSights(String searchLikeAttr) {
         Pageable pageable = Pageable.unpaged();
-        Predicate searchInLabelPredicate = SightPredicates.inLabel(text);
+        Predicate searchInLabelPredicate = SightPredicates.inLabel(searchLikeAttr);
         Page<Sight> page = sightRepository.findAll(searchInLabelPredicate, pageable);
         return page;
     }
@@ -64,12 +64,13 @@ public class SightServiceImpl implements SightService {
     }
 
     @Override
-    public Page<Sight> getSighs(Predicate predicate, String text, int currentPage, int pageSize, String sorting) {
+    public Page<Sight> getSighs(Predicate predicate, String searchLikeAttr,
+                                int currentPage, int pageSize, String sorting) {
         Sort sort = getSorting(sorting);
         Pageable pageable = PageRequest.of(currentPage, pageSize, sort);
         BooleanBuilder builder = new BooleanBuilder();
 
-        Predicate searchInLabelPredicate = SightPredicates.inLabel(text);
+        Predicate searchInLabelPredicate = SightPredicates.inLabel(searchLikeAttr);
         builder.and(predicate).and(searchInLabelPredicate);
 
         Page<Sight> page = sightRepository.findAll(builder, pageable);

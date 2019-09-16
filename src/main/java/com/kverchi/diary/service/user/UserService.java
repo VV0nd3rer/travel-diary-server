@@ -4,19 +4,23 @@ package com.kverchi.diary.service.user;
 import com.kverchi.diary.service.user.impl.ServiceResponse;
 import com.kverchi.diary.model.entity.User;
 import com.kverchi.diary.model.form.RegistrationForm;
+import com.kverchi.diary.service.user.impl.UserSearchingCriteria;
 import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
 
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 	ServiceResponse login(User requestUser);
 	ServiceResponse logout();
 	Page<User> getAllUsers();
-	Page<User> getAllUsers(String text);
+	Page<User> getAllUsers(String searchLikeAttr);
 	Page<User> getUsers(Predicate predicate, int currentPage, int pageSize, String sorting);
+	Page<User> getUsers(Predicate predicate, String searchLikeAttr,
+						int currentPage, int pageSize, String sorting);
 	ServiceResponse register(RegistrationForm form);
 	void activateAccount(User user);
 	boolean updatePassword(User user);

@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/all", "/user/login", "/user/register").permitAll()
                 .antMatchers("/echo", "/sights/**", "/books/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors().configurationSource(corsConfigurationSource())

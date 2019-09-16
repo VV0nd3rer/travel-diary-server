@@ -39,10 +39,10 @@ public class SightController {
 
     @GetMapping("/all")
     public ResponseEntity<PagedResources<SightsListResource>> getAllSights(
-            @RequestParam(name = "text", required = false) String text) {
+            @RequestParam(name = "searchLikeAttr", required = false) String searchLikeAttr) {
         Page<Sight> sightList;
-        if (text != null) {
-            sightList = sightService.getAllSights(text);
+        if (searchLikeAttr != null) {
+            sightList = sightService.getAllSights(searchLikeAttr);
         } else {
             sightList = sightService.getAllSights();
         }
@@ -54,7 +54,7 @@ public class SightController {
         PagedResources<SightsListResource> pagedResources =
                 new PagedResources<SightsListResource>(sightResources, pageMetadata);
         pagedResources.add(ControllerLinkBuilder.linkTo(
-                ControllerLinkBuilder.methodOn(SightController.class).getAllSights(text)
+                ControllerLinkBuilder.methodOn(SightController.class).getAllSights(searchLikeAttr)
         ).withSelfRel());
         return new ResponseEntity<PagedResources<SightsListResource>>(pagedResources, HttpStatus.OK);
     }
@@ -62,13 +62,13 @@ public class SightController {
     @GetMapping
     public ResponseEntity<PagedResources<SightsListResource>> getSights(
             @QuerydslPredicate(root = Sight.class) Predicate predicate,
-            @RequestParam(name = "text", required = false) String text,
+            @RequestParam(name = "searchLikeAttr", required = false) String searchLikeAttr,
             @RequestParam(name = "page", defaultValue = DEFAULT_CURRENT_PAGE_VALUE) int page,
             @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE_VALUE) int size,
             @RequestParam(name = "sorting", defaultValue = DEFAULT_SORTING_VALUE) String sorting) {
         Page<Sight> sightList;
-        if (text != null) {
-            sightList = sightService.getSighs(predicate, text, page, size, sorting);
+        if (searchLikeAttr != null) {
+            sightList = sightService.getSighs(predicate, searchLikeAttr, page, size, sorting);
         } else {
             sightList = sightService.getSighs(predicate, page, size, sorting);
         }
@@ -81,7 +81,7 @@ public class SightController {
         pagedResources.add(
                 ControllerLinkBuilder.linkTo(
                         ControllerLinkBuilder.methodOn(SightController.class)
-                                .getSights(predicate, text, page, size, sorting)).withSelfRel()
+                                .getSights(predicate, searchLikeAttr, page, size, sorting)).withSelfRel()
         );
         return new ResponseEntity<PagedResources<SightsListResource>>(pagedResources, HttpStatus.OK);
 
