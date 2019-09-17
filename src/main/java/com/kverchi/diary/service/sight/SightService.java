@@ -15,6 +15,7 @@ public interface SightService {
     Page<Sight> getSighs(Predicate predicate, int currentPage, int pageSize, String sorting);
     Page<Sight> getSighs(Predicate predicate, String searchLikeAttr, int currentPage, int pageSize, String sorting);
     Sight getSightById(int sightId);
+    Sight getSightByLabel(String label);
     Sight updateSight(Sight sight);
     Sight saveSight(Sight sight);
     void deleteById(int sightId);

@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import com.kverchi.diary.model.entity.Post;
+import com.kverchi.diary.model.entity.Sight;
 import com.kverchi.diary.model.entity.User;
 import com.kverchi.diary.repository.PostRepository;
+import com.kverchi.diary.repository.SightRepository;
 import com.kverchi.diary.service.security.SecurityService;
+import com.kverchi.diary.service.sight.SightService;
 import com.kverchi.diary.service.user.UserService;
 import com.kverchi.diary.service.user.impl.MsgServiceResponse;
 import com.querydsl.core.BooleanBuilder;
@@ -39,6 +42,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    SightService sightService;
 
     @Override
     public Page<Post> getAllPosts() {
@@ -84,6 +90,17 @@ public class PostServiceImpl implements PostService {
         if(user.getUserId() != post.getAuthor().getUserId()) {
             throw new BadCredentialsException(MsgServiceResponse.FORBIDDEN_ACTION.toString());
         }
+
+        Sight updatedSightFromRepo = sightService.getSightByLabel(post.getSight().getLabel());
+        if(updatedSightFromRepo == null) {
+            Sight newSight = new Sight();
+            newSight.setLabel(post.getSight().getLabel());
+            newSight.setDescription(post.getSight().getDescription());
+            newSight.setLatitude(post.getSight().getLatitude());
+            newSight.setLongitude(post.getSight().getLongitude());
+            updatedSightFromRepo = sightService.saveSight(newSight);
+        }
+        post.setSight(updatedSightFromRepo);
         return postRepository.save(post);
     }
 

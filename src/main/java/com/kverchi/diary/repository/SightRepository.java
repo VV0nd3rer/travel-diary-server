@@ -14,5 +14,6 @@ import java.util.List;
 public interface SightRepository extends JpaRepository <Sight, Integer>,
         QuerydslPredicateExecutor<Sight> {
     Sight findByLatitudeAndLongitude(float latitude, float longitude);
+    Sight findByLabel(String label);
 
 }

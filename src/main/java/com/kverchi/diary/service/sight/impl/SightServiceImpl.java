@@ -1,6 +1,7 @@
 package com.kverchi.diary.service.sight.impl;
 
 import com.kverchi.diary.model.entity.Sight;
+import com.kverchi.diary.model.entity.SightVisitsCounter;
 import com.kverchi.diary.repository.SightRepository;
 import com.kverchi.diary.repository.SightVisitRepository;
 import com.kverchi.diary.repository.predicates.SightPredicates;
@@ -108,25 +109,28 @@ public class SightServiceImpl implements SightService {
     }
 
     @Override
+    public Sight getSightByLabel(String label) {
+        return sightRepository.findByLabel(label);
+    }
+
+    @Override
     public Sight updateSight(Sight sight) {
         return sightRepository.save(sight);
     }
 
     @Override
     public Sight saveSight(Sight sight) {
-        Sight addedSight = null;
+        Sight savedSight = new Sight();
         Country country = sight.getCountry();
-        if (country == null) {
-            //TODO handle situation when Map API can't find country code for new sight
-            return addedSight;
+        if (country != null) {
+            Country countryFromRepo = countryService.getCountryByCode(country.getCountryCode());
+            if (countryFromRepo == null) {
+                countryService.addCountry(country);
+                sight.setCountry(country);
+            }
         }
-        Country countryFromDb = countryService.getCountryByCode(country.getCountryCode());
-        if (countryFromDb == null) {
-            countryService.addCountry(country);
-            sight.setCountry(country);
-        }
-        addedSight = sightRepository.save(sight);
-        return addedSight;
+        savedSight = sightRepository.save(sight);
+        return savedSight;
     }
 
     @Override
