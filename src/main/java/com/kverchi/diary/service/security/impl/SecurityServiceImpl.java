@@ -32,11 +32,4 @@ public class SecurityServiceImpl implements SecurityService {
         return token;
     }
 
-    @Override
-    public Object getUserFromSession() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        Object principal = authentication.getPrincipal();
-        return principal;
-    }
 }

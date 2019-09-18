@@ -26,7 +26,6 @@ public interface UserService {
 	boolean updatePassword(User user);
 	boolean createAndSendResetPasswordToken(String email);
 	User getResetPasswordToken(String token);
-	User getUserFromSession();
 	boolean isValuePresent(String key, Object value);
 	void saveUserInfo(int userId, String info);
 	//TODO is it correct place for these two methods? Or would it be better to use them in Sight layer?

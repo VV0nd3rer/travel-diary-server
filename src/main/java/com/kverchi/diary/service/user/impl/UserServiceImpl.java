@@ -197,17 +197,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserFromSession() {
-        User currentUser = new User();
-        Object principal = securityService.getUserFromSession();
-        if (principal instanceof User) {
-            currentUser = (User) principal;
-            return currentUser;
-        }
-        return currentUser;
-    }
-
-    @Override
     public boolean isValuePresent(String key, Object value) {
         return false;
     }

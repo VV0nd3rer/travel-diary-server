@@ -33,10 +33,4 @@ public class SecurityServiceImplTest {
         assertNotEquals(token, "");
     }
 
-    @Test
-    @WithMockUser
-    public void testGetUserFromSession() throws Exception {
-        UserDetails user = (UserDetails) securityService.getUserFromSession();
-        assertEquals(user.getUsername(), "user");
-    }
 }
