@@ -16,6 +16,7 @@ public class SinglePostResource extends ResourceSupport {
     private final int postId;
     private final String title;
     private final String description;
+    private final String previewImageUrl;
     private final String text;
     private final ZonedDateTime createdAt;
     private final ZonedDateTime updatedAt;
@@ -26,6 +27,7 @@ public class SinglePostResource extends ResourceSupport {
         this.postId = post.getPostId();
         this.title = post.getTitle();
         this.description = post.getDescription();
+        this.previewImageUrl = post.getPreviewImageUrl();
         this.text = post.getText();
         this.createdAt = post.getCreatedAt();
         this.updatedAt = post.getUpdatedAt();
@@ -65,4 +67,7 @@ public class SinglePostResource extends ResourceSupport {
         return sight;
     }
 
+    public String getPreviewImageUrl() {
+        return previewImageUrl;
+    }
 }
