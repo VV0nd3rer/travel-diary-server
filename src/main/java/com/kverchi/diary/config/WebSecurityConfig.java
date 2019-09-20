@@ -51,7 +51,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .csrf()
-                .disable();
+                .disable()
+                .sessionManagement()
+                .invalidSessionUrl("/main/invalid-session")
+                .maximumSessions(1)
+                .expiredUrl("/main/expired-session");
     }
 
     @Bean
