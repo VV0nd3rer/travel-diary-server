@@ -6,4 +6,5 @@ import org.springframework.security.core.Authentication;
  */
 public interface SecurityService {
     String generateSecurityToken();
+    String sanitizeHtmlText(String htmlText);
 }

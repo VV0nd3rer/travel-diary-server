@@ -1,6 +1,8 @@
 package com.kverchi.diary.service.security.impl;
 
 import com.kverchi.diary.service.security.SecurityService;
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -30,6 +32,13 @@ public class SecurityServiceImpl implements SecurityService {
             e.printStackTrace();
         }
         return token;
+    }
+
+    @Override
+    public String sanitizeHtmlText(String htmlText) {
+        PolicyFactory sanitizer = Sanitizers.FORMATTING.and(Sanitizers.BLOCKS)
+                .and(Sanitizers.IMAGES).and(Sanitizers.LINKS).and(Sanitizers.STYLES);
+        return sanitizer.sanitize(htmlText);
     }
 
 }
