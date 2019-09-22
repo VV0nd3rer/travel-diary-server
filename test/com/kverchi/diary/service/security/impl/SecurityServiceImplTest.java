@@ -44,7 +44,7 @@ public class SecurityServiceImplTest {
     @Test
     public void testSanitizeHtmlText() {
         final String htmlText1 = "<p>The greatest story. Cyberpank is alive <img src=\"http://cloud.tinymce.com/stable/plugins/emoticons/img/smiley-wink.gif\" alt=\"wink\" /></p>";
-        final String htmlText2 = "<p><iframe src=\"//www.youtube.com/embed/jIM4-HLtUM0\" width=\"560\" height=\"314\" allowfullscreen=\"allowfullscreen\"></iframe></p>\n" +
+        final String htmlText2 = "<p><iframe src=\"//www.youtube.com/embed/orc0FZUlxbg\" width=\"560\" height=\"314\" allowfullscreen=\"allowfullscreen\"></iframe></p>\n" +
                 "<p>It&rsquo;s no secret that&nbsp;<em>King Arthur: Legend of the Sword</em>&nbsp;is going to include several big fantasy and magic elements, and previous videos have shown huge monsters as well as magic figures. This is a great look at the power of the sword itself, though, and goes a long way to show how Hunnam&rsquo;s Arthur and his small band of reprobates is going to be able to battle Vortigern and his vast army. Both promo and banner emphasize the core conflict between these two kings, as well, and now it looks like there is going to be a lot of magic at the center of that final throwdown. We&rsquo;ll be interested to see what else WB has in store for us with this very risky fantasy epic.</p>\n" +
                 "<p><img src=\"http://static.srcdn.com/wp-content/uploads/king-arthur-legend-sword-charlie-hunnam.jpg\" alt=\"\" width=\"558\" height=\"279\" /></p>";
         String sanitizedHtml1 = securityService.sanitizeHtmlText(htmlText1);

@@ -1,6 +1,7 @@
 package com.kverchi.diary.service.security.impl;
 
 import com.kverchi.diary.service.security.SecurityService;
+import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.regex.Pattern;
 
 /**
  * Created by Liudmyla Melnychuk on 25.3.2019.
@@ -36,8 +38,12 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public String sanitizeHtmlText(String htmlText) {
-        PolicyFactory sanitizer = Sanitizers.FORMATTING.and(Sanitizers.BLOCKS)
-                .and(Sanitizers.IMAGES).and(Sanitizers.LINKS).and(Sanitizers.STYLES);
+        PolicyFactory sanitizer = new HtmlPolicyBuilder().allowElements("iframe")
+                .allowAttributes("src").matching(Pattern.compile("^//www.youtube.com/embed/[\\w]+$")).onElements("iframe")
+                .allowAttributes("width", "height", "allowfullscreen").onElements("iframe")
+                .toFactory()
+                .and(Sanitizers.FORMATTING.and(Sanitizers.BLOCKS)
+                .and(Sanitizers.IMAGES).and(Sanitizers.LINKS).and(Sanitizers.STYLES));
         return sanitizer.sanitize(htmlText);
     }
 
