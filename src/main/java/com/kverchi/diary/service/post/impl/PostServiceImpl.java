@@ -6,6 +6,7 @@ import com.kverchi.diary.model.entity.Post;
 import com.kverchi.diary.model.entity.Sight;
 import com.kverchi.diary.model.entity.User;
 import com.kverchi.diary.repository.PostRepository;
+import com.kverchi.diary.service.security.SecurityService;
 import com.kverchi.diary.service.sight.SightService;
 import com.kverchi.diary.service.user.impl.MsgServiceResponse;
 import org.slf4j.Logger;
@@ -37,6 +38,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     SightService sightService;
+
+    @Autowired
+    SecurityService securityService;
 
     @Override
     public Page<Post> getAllPosts() {
@@ -81,6 +85,8 @@ public class PostServiceImpl implements PostService {
         post.setAuthor(user);
         Sight sightFromRepo = prepareSight(post);
         post.setSight(sightFromRepo);
+        String sanitizedHtmlText = securityService.sanitizeHtmlText(post.getText());
+        post.setText(sanitizedHtmlText);
         return postRepository.save(post);
     }
 
@@ -96,6 +102,8 @@ public class PostServiceImpl implements PostService {
         }
         Sight sightFromRepo = prepareSight(post);
         post.setSight(sightFromRepo);
+        String sanitizedHtmlText = securityService.sanitizeHtmlText(post.getText());
+        post.setText(sanitizedHtmlText);
         return postRepository.save(post);
     }
     private Sight prepareSight(Post post) {
