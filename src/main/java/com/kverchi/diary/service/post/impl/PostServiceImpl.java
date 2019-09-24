@@ -124,6 +124,18 @@ public class PostServiceImpl implements PostService {
     }
     @Override
     public void deleteById(int id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.getPrincipal() instanceof User) {
+            User user = (User) authentication.getPrincipal();
+            Optional<Post> postOptional = postRepository.findById(id);
+            if(postOptional.isPresent()) {
+                Post post = postOptional.get();
+                if (user.getUserId() != post.getAuthor().getUserId()) {
+                    throw new BadCredentialsException(MsgServiceResponse.FORBIDDEN_ACTION.toString());
+                }
+            }
+        }
         postRepository.deleteById(id);
     }
 
