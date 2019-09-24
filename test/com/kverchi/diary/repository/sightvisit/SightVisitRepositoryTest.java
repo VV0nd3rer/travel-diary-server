@@ -26,7 +26,5 @@ public class SightVisitRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
 
-    @Autowired
-    SightVisitRepository sightVisitRepository;
 
 }

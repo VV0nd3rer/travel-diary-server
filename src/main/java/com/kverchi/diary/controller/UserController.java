@@ -11,6 +11,7 @@ import com.querydsl.core.types.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.hateoas.PagedResources;
@@ -38,6 +39,8 @@ public class UserController {
     private static final String DEFAULT_PAGE_SIZE_VALUE = "5";
     private static final String DEFAULT_CURRENT_PAGE_VALUE = "0";
     private static final String DEFAULT_SORTING_VALUE = "unsorted";
+    @Value( "${client.url}" )
+    private String clientUrl;
 
     @Autowired
     UserService userService;
@@ -73,7 +76,13 @@ public class UserController {
     @GetMapping(value = "/confirm/{securityToken}")
     public RedirectView confirmRegistration(@PathVariable("securityToken") String securityToken) {
         logger.info("Security token from email: " + securityToken);
-        return new RedirectView("http://localhost:4200/login");
+        boolean isUserActivated = userService.activateAccount(securityToken);
+        if(isUserActivated) {
+            return new RedirectView(clientUrl + "/login");
+        }
+        else {
+            return new RedirectView(clientUrl + "/not-found");
+        }
     }
 
     @GetMapping("/all")

@@ -1,14 +1,17 @@
 package com.kverchi.diary.model.entity;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
 
 /**
  * Created by Liudmyla Melnychuk on 26.3.2019.
  */
 @Entity
 @Table(name="verification_tokens")
+@NamedEntityGraph(name = "verification-token-entity-graph", attributeNodes = {
+        @NamedAttributeNode("user")
+})
 public class VerificationToken {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="token_id")
@@ -16,15 +19,33 @@ public class VerificationToken {
 
     private String token;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "expiration_date")
-    private long expirationDate;
+    private ZonedDateTime expirationDate;
 
     @Column(name = "is_valid")
     private boolean isValid;
+
+    public VerificationToken() {}
+
+    public VerificationToken(String token, User user) {
+        this.token = token;
+        this.user = user;
+    }
+
+
+    private void calculateExpirationDate() {
+        ZonedDateTime currentTime = ZonedDateTime.now();
+        this.expirationDate = currentTime.plusHours(24);
+    }
+    @PrePersist
+    public void beforePersist() {
+        this.calculateExpirationDate();
+        this.setValid(true);
+    }
 
     public int getTokenId() {
         return tokenId;
@@ -50,11 +71,11 @@ public class VerificationToken {
         this.user = user;
     }
 
-    public long getExpirationDate() {
+    public ZonedDateTime getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(long expirationDate) {
+    public void setExpirationDate(ZonedDateTime expirationDate) {
         this.expirationDate = expirationDate;
     }
 

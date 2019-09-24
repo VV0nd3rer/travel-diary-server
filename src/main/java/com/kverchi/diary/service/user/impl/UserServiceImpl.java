@@ -2,6 +2,8 @@ package com.kverchi.diary.service.user.impl;
 
 import com.kverchi.diary.model.Email;
 import com.kverchi.diary.model.entity.User;
+import com.kverchi.diary.model.entity.VerificationToken;
+import com.kverchi.diary.repository.VerificationTokenRepository;
 import com.kverchi.diary.repository.predicates.UserPredicates;
 import com.kverchi.diary.service.email.impl.EmailTemplate;
 import com.kverchi.diary.model.form.RegistrationForm;
@@ -32,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 /**
@@ -49,6 +53,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -162,8 +169,10 @@ public class UserServiceImpl implements UserService {
                         textVariables);
         emailMessagingProducerService.sendEmail(registrationEmail);
 
+        VerificationToken verificationToken = new VerificationToken(securityToken, user);
         try {
             userRepository.save(user);
+            verificationTokenRepository.save(verificationToken);
             response.setSuccessResponse();
         } catch (UnexpectedRollbackException e) {
             e.printStackTrace();
@@ -176,8 +185,18 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void activateAccount(User user) {
-
+    public boolean activateAccount(String token) {
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        if (verificationToken == null || !verificationToken.isValid() ||
+                verificationToken.getExpirationDate().compareTo(ZonedDateTime.now()) < 0) {
+            return false;
+        }
+        User account = verificationToken.getUser();
+        account.setEnabled(true);
+        userRepository.save(account);
+        verificationToken.setValid(false);
+        verificationTokenRepository.save(verificationToken);
+        return true;
     }
 
     @Override
@@ -193,11 +212,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getResetPasswordToken(String token) {
         return null;
-    }
-
-    @Override
-    public boolean isValuePresent(String key, Object value) {
-        return false;
     }
 
     @Override

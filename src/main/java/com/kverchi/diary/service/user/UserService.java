@@ -22,15 +22,11 @@ public interface UserService {
 	Page<User> getUsers(Predicate predicate, String searchLikeAttr,
 						int currentPage, int pageSize, String sorting);
 	ServiceResponse register(RegistrationForm form);
-	void activateAccount(User user);
+	boolean activateAccount(String token);
 	boolean updatePassword(User user);
 	boolean createAndSendResetPasswordToken(String email);
 	User getResetPasswordToken(String token);
-	boolean isValuePresent(String key, Object value);
 	void saveUserInfo(int userId, String info);
-	//TODO is it correct place for these two methods? Or would it be better to use them in Sight layer?
-	/*List getUserWishedSights(int userId);
-	List getUserVisitedSights(int userId);*/
 	boolean verifyPassword(String rawPass, String encodedPass);
 
 	static String generateServerBaseUrl(HttpServletRequest request) {
