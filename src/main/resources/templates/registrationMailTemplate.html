@@ -5,9 +5,10 @@
 </head>
 <body>
 <div>
-    <span th:text="#{registering.user.email.info}">Some fancy text</span>
-    <span style="color:blue;" th:text="${confirmEmailLink}">link</span>
-    <a th:href="${confirmEmailLink}">link</a>
+    <span th:text="#{registering.user.email.info}">Thank you for your registration...</span>
+
+    <a href="#" th:href="${confirmEmailLink}"><span style="color:blue;" th:text="${confirmEmailLink}">link</span></a>
+
 </div>
 </body>
 </html>

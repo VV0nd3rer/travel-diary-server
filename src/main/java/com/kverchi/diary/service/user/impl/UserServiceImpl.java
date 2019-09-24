@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -132,7 +131,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ServiceResponse register(RegistrationForm form) {
         ServiceResponse response = new ServiceResponse();
-        if (!form.getPassword().equals(form.getMatchingPassword())) {
+        if (!form.getPassword().equals(form.getConfirmPassword())) {
             response.setResponseMessage(MsgServiceResponse.NEW_PASSWORD_MISMATCHED);
             response.setResponseCode(HttpStatus.BAD_REQUEST);
             return response;

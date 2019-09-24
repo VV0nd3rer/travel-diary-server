@@ -19,7 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name="users")
 public class User implements Serializable, UserDetails {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "user_generator")
+	@SequenceGenerator(name = "user_generator", initialValue=1, allocationSize=1, sequenceName = "users_user_id_seq")
 	@Column(name="user_id")
 	private int userId;
 	private String username;

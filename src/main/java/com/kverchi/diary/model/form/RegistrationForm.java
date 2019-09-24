@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class RegistrationForm {
 	private String username;
 	private String password;
-	private String matchingPassword;
+	private String confirmPassword;
 	private String email;
 
 	public RegistrationForm() {
@@ -15,7 +15,7 @@ public class RegistrationForm {
 	public RegistrationForm(String username, String password, String matchingPassword, String email) {
 		this.username = username;
 		this.password = password;
-		this.matchingPassword = matchingPassword;
+		this.confirmPassword = matchingPassword;
 		this.email = email;
 	}
 
@@ -35,11 +35,11 @@ public class RegistrationForm {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getMatchingPassword() {
-		return matchingPassword;
+	public String getConfirmPassword() {
+		return confirmPassword;
 	}
-	public void setMatchingPassword(String matchingPassword) {
-		this.matchingPassword = matchingPassword;
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 	public String getEmail() {
 		return email;
